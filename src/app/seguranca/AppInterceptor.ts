@@ -18,11 +18,18 @@ export class AppInterceptor implements HttpInterceptor {
         req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
     }
 
-    if (this.auth.verifyTokenRequest(req.url)) {
-      return delegate.handle(req);
-    }
-
-    return this.processIntercept(req, delegate);
+    /*return next.handle(req).pipe(
+      catchError((err) => {
+        const errorResponse = err as HttpErrorResponse;
+        console.log(errorResponse.error.error);
+        if (errorResponse.status === 401 && errorResponse.error.error === 'invalid_token') {
+          this.fazerRequisicao();
+        }
+        return throwError(err);
+      })
+    );
+*/
+    return next.handle(req);
   }
 
   /*private fazerRequisicao() {

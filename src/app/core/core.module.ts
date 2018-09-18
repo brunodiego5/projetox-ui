@@ -1,12 +1,12 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
-import ptBr from '@angular/common/locales/pt';
+import locatePt from '@angular/common/locales/pt';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { ToastrModule } from 'ngx-toastr';
-import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
-import { ConfirmationService } from 'primeng/components/common/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { ErrorHandlerService } from './error-handler.service';
@@ -18,7 +18,7 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
 import { AuthService } from '../seguranca/auth.service';
 import { NaoAutorizadoComponent } from './nao-autorizado.component';
 
-registerLocaleData(ptBr);
+registerLocaleData(locatePt);
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -60,7 +60,7 @@ export function tokenGetter() {
 
     ConfirmationService,
     Title,
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
+    { provide: LOCALE_ID, useValue: 'pt' }
   ]
 })
 export class CoreModule { }
