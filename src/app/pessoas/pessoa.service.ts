@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Pessoa } from '../core/model';
+import { environment } from '../../environments/environment.prod';
 
 export class PessoaFiltro {
   nome: string;
@@ -16,9 +17,11 @@ export class PessoaFiltro {
 })
 export class PessoaService {
 
-  pessoasUrl = 'http://localhost:8080/pessoas';
+  pessoasUrl: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.pessoasUrl = `${environment.apiUrl}/pessoas`;
+   }
 
   pesquisar(filtro: PessoaFiltro): Observable<any> {
     let params = new HttpParams();

@@ -18,7 +18,7 @@ export class LoginFormComponent {
       this.auth.login(usuario, senha)
         .subscribe(res => {
           this.auth.armazenarToken(res.access_token);
-          this.router.navigate(['/lancamentos']);
+          this.router.navigate(['/dashboard']);
         },
          erro => {
            if (erro.status === 400) {

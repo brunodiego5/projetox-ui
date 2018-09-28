@@ -3,6 +3,7 @@ import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, catchError, throttleTime } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '../../environments/environment.prod';
 
 interface AccessData {
   access_token: string;
@@ -15,13 +16,15 @@ interface AccessData {
 })
 export class AuthService {
 
-  oauthTokenUrl = 'http://localhost:8080/oauth/token';
+  oauthTokenUrl: string;
   jwtPayload: any;
 
   constructor(
     private http: HttpClient,
     private jwtHelperService: JwtHelperService) {
       this.carregarToken();
+    this.oauthTokenUrl = `${environment.apiUrl}/oauth/token`;
+
      }
 
   login(usuario: string, senha: string): Observable<any> {
