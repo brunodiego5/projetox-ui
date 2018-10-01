@@ -13,6 +13,7 @@ import { ErrorHandlerService } from './error-handler.service';
 import { PessoaService } from '../pessoas/pessoa.service';
 import { LancamentoService } from '../lancamentos/lancamento.service';
 import { CategoriaService } from '../categorias/categoria.service';
+import { DashboardService } from '../dashboard/dashboard.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { AuthService } from '../seguranca/auth.service';
@@ -55,6 +56,7 @@ export function tokenGetter() {
     LancamentoService,
     PessoaService,
     CategoriaService,
+    DashboardService,
     ErrorHandlerService,
     AuthService,
 

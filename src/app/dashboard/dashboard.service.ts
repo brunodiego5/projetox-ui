@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { AuthHttp } from 'angular2-jwt';
-
 import { environment } from './../../environments/environment';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import * as moment from 'moment';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +13,29 @@ export class DashboardService {
 
   lancamentosUrl: string;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.lancamentosUrl = `${environment.apiUrl}/lancamentos`;
   }
 
-  lancamentosPorCategoria(): 
+  lancamentosPorCategoria(): Observable<any> {
+    return this.http.get(`${this.lancamentosUrl}/estatisticas/por-categoria`);
+  }
+
+  lancamentosPorDia(): Observable<any> {
+    return this.http.get(`${this.lancamentosUrl}/estatisticas/por-dia`)
+    .pipe(
+      map(response => {
+        const dados = response;
+
+        this.converterStringsParaDatas([dados]);
+
+        return dados;
+    }));
+  }
+
+  private converterStringsParaDatas(dados: Array<any>) {
+    for (const dado of dados) {
+      dado.dia = moment(dado.dia, 'YYYY-MM-DD').toDate();
+    }
+  }
 }
