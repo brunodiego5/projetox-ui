@@ -4,9 +4,10 @@ import locatePt from '@angular/common/locales/pt';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import { ToastrModule } from 'ngx-toastr';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { GrowlModule } from 'primeng/growl';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { ErrorHandlerService } from './error-handler.service';
@@ -30,10 +31,7 @@ export function tokenGetter() {
     CommonModule,
     RouterModule,
 
-    ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right',
-      closeButton: true,
-    }),
+    GrowlModule,
     ConfirmDialogModule,
     JwtModule.forRoot({
       config: {
@@ -49,7 +47,7 @@ export function tokenGetter() {
     NaoAutorizadoComponent],
   exports: [
     NavbarComponent,
-    ToastrModule,
+    GrowlModule,
     ConfirmDialogModule
   ],
   providers: [
@@ -61,6 +59,7 @@ export function tokenGetter() {
     AuthService,
 
     ConfirmationService,
+    MessageService,
     Title,
     { provide: LOCALE_ID, useValue: 'pt' }
   ]

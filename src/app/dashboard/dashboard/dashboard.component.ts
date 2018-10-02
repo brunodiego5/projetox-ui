@@ -24,12 +24,12 @@ export class DashboardComponent implements OnInit {
     ]
   };
 
-  constructor(private dashboradService: DashboardService) { 
+  constructor(private dashboradService: DashboardService) {
     this.dashboradService.lancamentosPorCategoria()
       .subscribe(
         dados => {
       this.pieChartData = {
-        labels: dados.,
+        // labels: dados.,
         datasets: [
           {
             data: [2500, 2700, 550, 235],

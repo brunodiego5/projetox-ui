@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 import { Pessoa } from '../../core/model';
 import { PessoaService } from '../pessoa.service';
@@ -20,7 +20,7 @@ export class PessoaCadastroComponent implements OnInit {
 
   constructor(
     private pessoaService: PessoaService,
-    private toastr: ToastrService,
+    private messageService: MessageService,
     private errorHandler: ErrorHandlerService,
     private route: ActivatedRoute,
     private router: Router,
@@ -62,7 +62,7 @@ export class PessoaCadastroComponent implements OnInit {
   adicionarPessoa(form: FormControl) {
     this.pessoaService.adicionar(this.pessoa)
       .subscribe((pessoaAdicionada) => {
-        this.toastr.success('Pessoa adicionada com sucesso!');
+        this.messageService.add({ severity: 'success', detail: 'Pessoa adicionada com sucesso!' });
 
         // form.reset();
         // this.pessoa = new Pessoa();
@@ -78,7 +78,7 @@ export class PessoaCadastroComponent implements OnInit {
       .subscribe((pessoa) => {
         this.pessoa = pessoa;
 
-        this.toastr.success('Pessoa alterada com sucesso!');
+        this.messageService.add({ severity: 'success', detail: 'Pessoa alterada com sucesso!' });
         this.atualizarTituloEdicao();
       },
         erro => this.errorHandler.handle(erro)

@@ -3,6 +3,7 @@ export declare class UIChart implements AfterViewInit, OnDestroy {
     el: ElementRef;
     type: string;
     options: any;
+    plugins: any[];
     width: string;
     height: string;
     responsive: boolean;

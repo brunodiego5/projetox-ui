@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorHandlerService {
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private messageService: MessageService) { }
 
   handle(errorResponse: any) {
     let msg: string;
@@ -37,7 +38,7 @@ export class ErrorHandlerService {
       msg = 'Erro ao processar serviço remoto. Tente novamente.';
       console.error('Ocorreu um erro', errorResponse);
     }
-    this.toastr.error(msg);
+    this.messageService.add({ severity: 'error', detail: msg });
   }
 
 }

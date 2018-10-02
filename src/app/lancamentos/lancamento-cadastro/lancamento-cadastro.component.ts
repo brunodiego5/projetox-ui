@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validator, Validators, FormControl } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 import { CategoriaService } from '../../categorias/categoria.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
@@ -32,7 +32,7 @@ export class LancamentoCadastroComponent implements OnInit {
     private categoriaService: CategoriaService,
     private pessoaService: PessoaService,
     private lancamentoService: LancamentoService,
-    private toastr: ToastrService,
+    private messageService: MessageService,
     private errorHandler: ErrorHandlerService,
     private route: ActivatedRoute,
     private router: Router,
@@ -110,7 +110,7 @@ export class LancamentoCadastroComponent implements OnInit {
   adicionarLancamento() {
     this.lancamentoService.adicionar(this.formulario.value)
       .subscribe(lancamentoAdicionado => {
-        this.toastr.success('Lançamento adicionado com sucesso!');
+         this.messageService.add({ severity: 'success', detail: 'Lançamento adicionado com sucesso!' });
 
         // form.reset();
         // this.lancamento = new Lancamento();
@@ -126,7 +126,7 @@ export class LancamentoCadastroComponent implements OnInit {
         // this.lancamento = lancamento;
         this.formulario.patchValue(lancamento);
 
-        this.toastr.success('Lançamento alterado com sucesso!');
+        this.messageService.add({ severity: 'success', detail: 'Lançamento alterado com sucesso!' });
         this.atualizarTituloEdicao();
       },
         erro => this.errorHandler.handle(erro)

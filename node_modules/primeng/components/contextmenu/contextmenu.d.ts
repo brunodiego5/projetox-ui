@@ -30,10 +30,11 @@ export declare class ContextMenu implements AfterViewInit, OnDestroy {
     appendTo: any;
     autoZIndex: boolean;
     baseZIndex: number;
+    triggerEvent: string;
     containerViewChild: ElementRef;
     documentClickListener: any;
     windowResizeListener: any;
-    rightClickListener: any;
+    triggerEventListener: any;
     constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, zone: NgZone);
     ngAfterViewInit(): void;
     show(event?: MouseEvent): void;
