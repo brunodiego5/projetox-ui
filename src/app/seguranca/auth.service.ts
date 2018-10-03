@@ -1,19 +1,12 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map, catchError, throttleTime } from 'rxjs/operators';
+
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { environment } from '../../environments/environment.prod';
+import 'rxjs/add/operator/toPromise';
 
-interface AccessData {
-  access_token: string;
-  refresh_token: string;
-  // user_data: UserData;
-}
+import { environment } from './../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
 
   oauthTokenUrl: string;
@@ -21,56 +14,68 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private jwtHelperService: JwtHelperService) {
-      this.carregarToken();
+    private jwtHelper: JwtHelperService
+  ) {
     this.oauthTokenUrl = `${environment.apiUrl}/oauth/token`;
-
-     }
-
-  login(usuario: string, senha: string): Observable<any> {
-       const headers = new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic YW5ndWxhcjpAbmd1bEByMA=='
-      });
-      const body = `username=${usuario}&password=${senha}&grant_type=password`;
-
-      return this.http.post(this.oauthTokenUrl, body,
-        { headers, withCredentials: true });
+    this.carregarToken();
   }
 
-  obterNovoAccessToken(): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic YW5ndWxhcjpAbmd1bEByMA=='
-    });
+  login(usuario: string, senha: string): Promise<void> {
+    const headers = new HttpHeaders()
+        .append('Content-Type', 'application/x-www-form-urlencoded')
+        .append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==');
+
+    const body = `username=${usuario}&password=${senha}&grant_type=password`;
+
+    return this.http.post<any>(this.oauthTokenUrl, body,
+        { headers, withCredentials: true })
+      .toPromise()
+      .then(response => {
+        this.armazenarToken(response.access_token);
+      })
+      .catch(response => {
+        if (response.status === 400) {
+          if (response.error === 'invalid_grant') {
+            return Promise.reject('Usuário ou senha inválida!');
+          }
+        }
+
+        return Promise.reject(response);
+      });
+  }
+
+  obterNovoAccessToken(): Promise<void> {
+    const headers = new HttpHeaders()
+        .append('Content-Type', 'application/x-www-form-urlencoded')
+        .append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==');
 
     const body = 'grant_type=refresh_token';
-    return this.http.post(this.oauthTokenUrl, body,
-      { headers, withCredentials: true });
+
+    return this.http.post<any>(this.oauthTokenUrl, body,
+        { headers, withCredentials: true })
+      .toPromise()
+      .then(response => {
+        this.armazenarToken(response.access_token);
+
+        console.log('Novo access token criado!');
+
+        return Promise.resolve(null);
+      })
+      .catch(response => {
+        console.error('Erro ao renovar token.', response);
+        return Promise.resolve(null);
+      });
   }
 
-  /*private fazerRequisicao(): Observable<AccessData> {
-    if (this.isAccessTokenInvalido()) {
-      console.log('token inválido');
-
-      return this.obterNovoAccessToken()
-        .subscribe(res => {
-          console.log(res.access_token);
-          this.armazenarToken(res.access_token);
-
-          console.log('Novo access token criado!');
-        },
-        erro => {
-          console.error('Erro ao renovar token.', erro);
-        }
-      );
-    }
-  }*/
+  limparAccessToken() {
+    localStorage.removeItem('token');
+    this.jwtPayload = null;
+  }
 
   isAccessTokenInvalido() {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
 
-    return !token || this.jwtHelperService.isTokenExpired(token);
+    return !token || this.jwtHelper.isTokenExpired(token);
   }
 
   temPermissao(permissao: string) {
@@ -87,13 +92,13 @@ export class AuthService {
     return false;
   }
 
-  public armazenarToken(token: string) {
-    this.jwtPayload = this.jwtHelperService.decodeToken(token);
-    localStorage.setItem('access_token', token);
+  private armazenarToken(token: string) {
+    this.jwtPayload = this.jwtHelper.decodeToken(token);
+    localStorage.setItem('token', token);
   }
 
   private carregarToken() {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
 
     if (token) {
       this.armazenarToken(token);

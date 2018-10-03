@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { ErrorHandlerService } from '../../core/error-handler.service';
 import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import { AuthService } from './../auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -10,28 +11,20 @@ import { Router } from '@angular/router';
 })
 export class LoginFormComponent {
 
-  constructor(private auth: AuthService,
+  constructor(
+    private auth: AuthService,
     private errorHandler: ErrorHandlerService,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   login(usuario: string, senha: string) {
-      this.auth.login(usuario, senha)
-        .subscribe(res => {
-          this.auth.armazenarToken(res.access_token);
-          this.router.navigate(['/dashboard']);
-        },
-         erro => {
-           if (erro.status === 400) {
-             const responseJson = erro.error;
-
-             if (responseJson.error === 'invalid_grant') {
-               this.errorHandler.handle('Usuário ou senha inválida');
-             }
-           } else {
-            this.errorHandler.handle(erro);
-           }
-         }
-      );
+    this.auth.login(usuario, senha)
+      .then(() => {
+        this.router.navigate(['/dashboard']);
+      })
+      .catch(erro => {
+        this.errorHandler.handle(erro);
+      });
   }
 
 }

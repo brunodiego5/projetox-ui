@@ -1,127 +1,104 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { map } from 'rxjs/operators';
 
-import { Lancamento } from '../core/model';
-import { environment } from '../../environments/environment.prod';
+import * as moment from 'moment';
+import 'rxjs/add/operator/toPromise';
+
+import { environment } from './../../environments/environment';
+import { Lancamento } from './../core/model';
+import { EditalSnifferHttp } from '../seguranca/editalsniffer-http';
 
 export class LancamentoFiltro {
   descricao: string;
   dataVencimentoInicio: Date;
   dataVencimentoFim: Date;
   pagina = 0;
-  itensPorPagina = 5; // 3;
+  itensPorPagina = 5;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LancamentoService {
 
   lancamentosUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: EditalSnifferHttp) {
     this.lancamentosUrl = `${environment.apiUrl}/lancamentos`;
-   }
+  }
 
-  pesquisar(filtro: LancamentoFiltro): Observable<any> {
-    let params = new HttpParams();
-    // const headers = new HttpHeaders().set('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+  urlUploadAnexo(): string {
+    return `${this.lancamentosUrl}/anexo`;
+  }
 
-    /*httpHeaders.append('Content-Type', 'application/json');
-    httpHeaders.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');*/
-
-    /*return this.http.get(`${this.lancamentosUrl}?resumo`, { headers})
-      .pipe(
-        map((res) => res)
-      );*/
-
-    params = params.set('page', filtro.pagina.toString());
-    params = params.set('size', filtro.itensPorPagina.toString());
+  pesquisar(filtro: LancamentoFiltro): Promise<any> {
+    let params = new HttpParams({
+      fromObject: {
+        page: filtro.pagina.toString(),
+        size: filtro.itensPorPagina.toString()
+      }
+    });
 
     if (filtro.descricao) {
-      params = params.set('descricao', filtro.descricao);
+      params = params.append('descricao', filtro.descricao);
     }
 
     if (filtro.dataVencimentoInicio) {
-      params = params.set('dataVencimentoDe',
+      params = params.append('dataVencimentoDe',
         moment(filtro.dataVencimentoInicio).format('YYYY-MM-DD'));
     }
 
     if (filtro.dataVencimentoFim) {
-      params = params.set('dataVencimentoAte',
+      params = params.append('dataVencimentoAte',
         moment(filtro.dataVencimentoFim).format('YYYY-MM-DD'));
     }
 
-    return this.http.get(`${this.lancamentosUrl}?resumo`,
-      { /*headers,*/  params });
-          /*mapTo(marvelResponse => marvelResponse.data.results
-          )*/
-          /*mapTo(response => {
-            console.log(response);
-            const responseJson = response.json();
-            const lancamentos = responseJson;*/
-            /*const resultado = {
-              lancamentos,
-              total: responseJson.totalElements
-            };
-            return resultado;*/
-          /*}*/
-        /*);*/
+    return this.http.get<any>(`${this.lancamentosUrl}?resumo`,
+        { params })
+      .toPromise()
+      .then(response => {
+        const lancamentos = response.content;
+
+        const resultado = {
+          lancamentos,
+          total: response.totalElements
+        };
+
+        return resultado;
+      });
   }
 
-  excluir(codigo: number): Observable<any> {
-    /*const headers = new HttpHeaders().set('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');*/
-
-    return this.http.delete(`${this.lancamentosUrl}/${codigo}`/*, { headers }*/);
+  excluir(codigo: number): Promise<void> {
+    return this.http.delete(`${this.lancamentosUrl}/${codigo}`)
+      .toPromise()
+      .then(() => null);
   }
 
-  adicionar(lancamento: Lancamento): Observable<Lancamento> {
-    /*const headers = new HttpHeaders(
-      {'Authorization': 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
-      'Content-Type': 'application/json'}
-      );*/
-
-      return this.http.post(this.lancamentosUrl, JSON.stringify(lancamento)/*, { headers }*/)
-        .pipe(
-          map(res => {
-            return res as Lancamento;
-          })
-        );
-
+  adicionar(lancamento: Lancamento): Promise<Lancamento> {
+    return this.http.post<Lancamento>(this.lancamentosUrl, lancamento)
+      .toPromise();
   }
 
-  atualizar(lancamento: Lancamento): Observable<Lancamento> {
-    /*const headers = new HttpHeaders(
-      {'Authorization': 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
-      'Content-Type': 'application/json'}
-      );*/
+  atualizar(lancamento: Lancamento): Promise<Lancamento> {
+    return this.http.put<Lancamento>(`${this.lancamentosUrl}/${lancamento.codigo}`, lancamento)
+      .toPromise()
+      .then(response => {
+        const lancamentoAlterado = response;
 
-    return this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`,
-      JSON.stringify(lancamento)/*, { headers }*/).
-        pipe(
-        map(response => {
-          const lancamentoAlterado = response as Lancamento;
-          this.converterStringsParaDatas([lancamentoAlterado]);
-          return lancamentoAlterado;
-        }));
+        this.converterStringsParaDatas([lancamentoAlterado]);
 
+        return lancamentoAlterado;
+      });
   }
 
-  buscarPorCodigo(codigo: number): Observable<Lancamento> {
-    /*const headers = new HttpHeaders().set('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');*/
+  buscarPorCodigo(codigo: number): Promise<Lancamento> {
+    return this.http.get<Lancamento>(`${this.lancamentosUrl}/${codigo}`)
+      .toPromise()
+      .then(response => {
+        const lancamento = response;
 
-    return this.http.get(`${this.lancamentosUrl}/${codigo}`/*, { headers }*/)
-      .pipe(
-        map(response => {
-          const lancamento = response as Lancamento;
+        this.converterStringsParaDatas([lancamento]);
 
-          this.converterStringsParaDatas([lancamento]);
-
-          return lancamento;
-      }));
+        return lancamento;
+      });
   }
 
   private converterStringsParaDatas(lancamentos: Lancamento[]) {
@@ -135,4 +112,5 @@ export class LancamentoService {
       }
     }
   }
+
 }

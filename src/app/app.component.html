@@ -3,11 +3,11 @@
 
 <p-growl></p-growl>
 
-<p-confirmDialog header="Confirmação" icon="pi pi-question-circle" #confirmacao>
-    <p-footer>
-        <button type="button" pButton icon="pi pi-check" label="Sim"
-            (click)="confirmacao.accept()"></button>
-        <button type="button" pButton icon="pi pi-times" label="Não"
-        (click)="confirmacao.reject()"></button>
-    </p-footer>
+<p-confirmDialog header="Confirmação" icon="fa fa-question-circle" #confirmacao>
+  <p-footer>
+    <button type="button" pButton icon="fa fa-check" label="Sim"
+      (click)="confirmacao.accept()"></button>
+    <button type="button" pButton icon="fa fa-times" label="Não"
+      (click)="confirmacao.reject()"></button>
+  </p-footer>
 </p-confirmDialog>

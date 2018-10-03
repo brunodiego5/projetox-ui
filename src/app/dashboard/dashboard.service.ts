@@ -1,36 +1,34 @@
 import { Injectable } from '@angular/core';
 
-import { environment } from './../../environments/environment';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import 'rxjs/operator/toPromise';
 import * as moment from 'moment';
-import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+import { environment } from './../../environments/environment';
+import { EditalSnifferHttp } from '../seguranca/editalsniffer-http';
+
+@Injectable()
 export class DashboardService {
 
   lancamentosUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: EditalSnifferHttp) {
     this.lancamentosUrl = `${environment.apiUrl}/lancamentos`;
   }
 
-  lancamentosPorCategoria(): Observable<any> {
-    return this.http.get(`${this.lancamentosUrl}/estatisticas/por-categoria`);
+  lancamentosPorCategoria(): Promise<Array<any>> {
+    return this.http.get<Array<any>>(`${this.lancamentosUrl}/estatisticas/por-categoria`)
+      .toPromise();
   }
 
-  lancamentosPorDia(): Observable<any> {
-    return this.http.get(`${this.lancamentosUrl}/estatisticas/por-dia`)
-    .pipe(
-      map(response => {
+  lancamentosPorDia(): Promise<Array<any>> {
+    return this.http.get<Array<any>>(`${this.lancamentosUrl}/estatisticas/por-dia`)
+      .toPromise()
+      .then(response => {
         const dados = response;
-
-        this.converterStringsParaDatas([dados]);
+        this.converterStringsParaDatas(dados);
 
         return dados;
-    }));
+      });
   }
 
   private converterStringsParaDatas(dados: Array<any>) {

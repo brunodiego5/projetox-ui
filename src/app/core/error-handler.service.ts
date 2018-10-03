@@ -1,14 +1,17 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { NotAuthenticatedError } from './../seguranca/editalsniffer-http';
 import { MessageService } from 'primeng/components/common/messageservice';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ErrorHandlerService {
 
-  constructor(private messageService: MessageService) { }
+  constructor(
+    private messageService: MessageService,
+    private router: Router
+  ) { }
 
   handle(errorResponse: any) {
     let msg: string;
@@ -16,8 +19,12 @@ export class ErrorHandlerService {
     if (typeof errorResponse === 'string') {
       msg = errorResponse;
 
-    } else if (errorResponse instanceof HttpErrorResponse /*Response*/ && errorResponse.status >= 400 && errorResponse.status <= 499) {
-      let errors;
+    } else if (errorResponse instanceof NotAuthenticatedError) {
+      msg = 'Sua sessão expirou!';
+      this.router.navigate(['/login']);
+
+    } else if (errorResponse instanceof HttpErrorResponse
+        && errorResponse.status >= 400 && errorResponse.status <= 499) {
       msg = 'Ocorreu um erro ao processar a sua solicitação';
 
       if (errorResponse.status === 403) {
@@ -25,11 +32,7 @@ export class ErrorHandlerService {
       }
 
       try {
-        errors = errorResponse; // .json();
-        // msg = errors[0].mensagemUsuario;
-        msg = errors.error[0].mensagemUsuario;
-
-
+        msg = errorResponse.error[0].mensagemUsuario;
       } catch (e) { }
 
       console.error('Ocorreu um erro', errorResponse);
@@ -38,6 +41,7 @@ export class ErrorHandlerService {
       msg = 'Erro ao processar serviço remoto. Tente novamente.';
       console.error('Ocorreu um erro', errorResponse);
     }
+
     this.messageService.add({ severity: 'error', detail: msg });
   }
 

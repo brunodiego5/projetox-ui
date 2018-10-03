@@ -8,8 +8,6 @@ import { MessageComponent } from './message/message.component';
     CommonModule
   ],
   declarations: [MessageComponent],
-  exports: [
-    MessageComponent
-  ]
+  exports: [MessageComponent]
 })
 export class SharedModule { }

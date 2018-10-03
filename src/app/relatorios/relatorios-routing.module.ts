@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { RelatorioLancamentosComponent } from './relatorio-lancamentos/relatorio-lancamentos.component';
 import { AuthGuard } from '../seguranca/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
+    path: 'lancamentos',
+    component: RelatorioLancamentosComponent,
+    canActivate: [ AuthGuard ],
     data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] }
   }
 ];
@@ -16,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class RelatoriosRoutingModule { }

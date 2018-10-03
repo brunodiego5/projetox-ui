@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 
-import { PessoaService, PessoaFiltro } from '../pessoa.service';
-import { ErrorHandlerService } from '../../core/error-handler.service';
-import { AuthService } from '../../seguranca/auth.service';
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import { PessoaFiltro, PessoaService } from './../pessoa.service';
 
 @Component({
   selector: 'app-pessoas-pesquisa',
@@ -16,17 +15,17 @@ import { AuthService } from '../../seguranca/auth.service';
 export class PessoasPesquisaComponent implements OnInit {
 
   totalRegistros = 0;
-  filtro = new PessoaFiltro;
+  filtro = new PessoaFiltro();
   pessoas = [];
   @ViewChild('tabela') grid;
 
-  constructor(private pessoaService: PessoaService,
-    private auth: AuthService,
+  constructor(
+    private pessoaService: PessoaService,
     private errorHandler: ErrorHandlerService,
-    private messageService: MessageService,
     private confirmation: ConfirmationService,
+    private messageService: MessageService,
     private title: Title
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.title.setTitle('Pesquisa de pessoas');
@@ -36,18 +35,12 @@ export class PessoasPesquisaComponent implements OnInit {
     this.filtro.pagina = pagina;
 
     this.pessoaService.pesquisar(this.filtro)
-      .subscribe(dados => {
-        this.totalRegistros = dados.totalElements;
-        this.pessoas = dados.content;
-      });
+      .then(resultado => {
+        this.totalRegistros = resultado.total;
+        this.pessoas = resultado.pessoas;
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
-
-  /*listarTodos() {
-    this.pessoaService.listarTodas()
-      .subscribe(dados => {
-
-      });
-  }*/
 
   aoMudarPagina(event: LazyLoadEvent) {
     const pagina = event.first / event.rows;
@@ -65,31 +58,29 @@ export class PessoasPesquisaComponent implements OnInit {
 
   excluir(pessoa: any) {
     this.pessoaService.excluir(pessoa.codigo)
-      .subscribe(() => {
+      .then(() => {
         if (this.grid.first === 0) {
           this.pesquisar();
         } else {
           this.grid.first = 0;
         }
 
-        this.messageService.add({severity: 'success', detail: 'Pessoa excluída com sucesso!' });
-      },
-      erro => this.errorHandler.handle(erro));
+        this.messageService.add({ severity: 'success', detail: 'Pesssoa excluída com sucesso!' });
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
-
-  // .then(() => null);
 
   alternarStatus(pessoa: any): void {
     const novoStatus = !pessoa.ativo;
 
     this.pessoaService.mudarStatus(pessoa.codigo, novoStatus)
-      .subscribe(() => {
+      .then(() => {
         const acao = novoStatus ? 'ativada' : 'desativada';
 
         pessoa.ativo = novoStatus;
         this.messageService.add({ severity: 'success', detail: `Pessoa ${acao} com sucesso!` });
-      },
-      erro => this.errorHandler.handle(erro));
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
 }

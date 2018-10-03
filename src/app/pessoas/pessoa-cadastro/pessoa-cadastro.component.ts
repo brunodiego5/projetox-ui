@@ -1,13 +1,13 @@
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 
 import { MessageService } from 'primeng/components/common/messageservice';
 
-import { Pessoa } from '../../core/model';
-import { PessoaService } from '../pessoa.service';
-import { ErrorHandlerService } from '../../core/error-handler.service';
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import { PessoaService } from './../pessoa.service';
+import { Pessoa, Contato } from './../../core/model';
 
 @Component({
   selector: 'app-pessoa-cadastro',
@@ -17,6 +17,9 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
 export class PessoaCadastroComponent implements OnInit {
 
   pessoa = new Pessoa();
+  estados: any[];
+  cidades: any[];
+  estadoSelecionado: number;
 
   constructor(
     private pessoaService: PessoaService,
@@ -32,23 +35,46 @@ export class PessoaCadastroComponent implements OnInit {
 
     this.title.setTitle('Nova pessoa');
 
+    this.carregarEstados();
+
     if (codigoPessoa) {
       this.carregarPessoa(codigoPessoa);
     }
   }
 
-  carregarPessoa(codigo: number) {
-    this.pessoaService.buscarPorCodigo(codigo)
-      .subscribe(pessoa => {
-        this.pessoa = pessoa;
-        this.atualizarTituloEdicao();
-      },
-        erro => this.errorHandler.handle(erro)
-      );
+  carregarEstados() {
+    this.pessoaService.listarEstados().then(lista => {
+      this.estados = lista.map(uf => ({ label: uf.nome, value: uf.codigo }));
+    })
+    .catch(erro => this.errorHandler.handle(erro));
+  }
+
+  carregarCidades() {
+    this.pessoaService.pesquisarCidades(this.estadoSelecionado).then(lista => {
+      this.cidades = lista.map(c => ({ label: c.nome, value: c.codigo }));
+    })
+    .catch(erro => this.errorHandler.handle(erro));
   }
 
   get editando() {
-    return Boolean(this.pessoa.codigo);
+    return Boolean(this.pessoa.codigo)
+  }
+
+  carregarPessoa(codigo: number) {
+    this.pessoaService.buscarPorCodigo(codigo)
+      .then(pessoa => {
+        this.pessoa = pessoa;
+
+        this.estadoSelecionado = (this.pessoa.endereco.cidade) ?
+                this.pessoa.endereco.cidade.estado.codigo : null;
+
+        if (this.estadoSelecionado) {
+          this.carregarCidades();
+        }
+
+        this.atualizarTituloEdicao();
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
   salvar(form: FormControl) {
@@ -61,41 +87,36 @@ export class PessoaCadastroComponent implements OnInit {
 
   adicionarPessoa(form: FormControl) {
     this.pessoaService.adicionar(this.pessoa)
-      .subscribe((pessoaAdicionada) => {
+      .then(pessoaAdicionada => {
         this.messageService.add({ severity: 'success', detail: 'Pessoa adicionada com sucesso!' });
-
-        // form.reset();
-        // this.pessoa = new Pessoa();
-
         this.router.navigate(['/pessoas', pessoaAdicionada.codigo]);
-      },
-        erro => this.errorHandler.handle(erro)
-      );
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
   atualizarPessoa(form: FormControl) {
-    this.pessoaService.adicionar(this.pessoa)
-      .subscribe((pessoa) => {
+    this.pessoaService.atualizar(this.pessoa)
+      .then(pessoa => {
         this.pessoa = pessoa;
 
         this.messageService.add({ severity: 'success', detail: 'Pessoa alterada com sucesso!' });
         this.atualizarTituloEdicao();
-      },
-        erro => this.errorHandler.handle(erro)
-      );
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
-  novo(form: FormControl) {
+  nova(form: FormControl) {
     form.reset();
 
     setTimeout(function() {
       this.pessoa = new Pessoa();
     }.bind(this), 1);
 
-    this.router.navigate(['pessoas/nova']);
+    this.router.navigate(['/pessoas/nova']);
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição da pessoa: ${this.pessoa.nome}`);
+    this.title.setTitle(`Edição de pessoa: ${this.pessoa.nome}`);
   }
+
 }

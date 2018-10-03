@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.prod';
 
-@Injectable({
-  providedIn: 'root'
-})
+import 'rxjs/add/operator/toPromise';
+
+import { environment } from './../../environments/environment';
+import { EditalSnifferHttp } from '../seguranca/editalsniffer-http';
+
+@Injectable()
 export class CategoriaService {
 
-  categoruasUrl: string;
+  categoriasUrl: string;
 
-  constructor(private http: HttpClient) {
-    this.categoruasUrl = `${environment.apiUrl}/categorias`;
-   }
-
-  listarTodas(): Observable<any> {
-    /*const headers = new HttpHeaders().set('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');*/
-
-    return this.http.get(`${this.categoruasUrl}`/*, { headers }*/);
+  constructor(private http: EditalSnifferHttp) {
+    this.categoriasUrl = `${environment.apiUrl}/categorias`;
   }
+
+  listarTodas(): Promise<any> {
+    return this.http.get(this.categoriasUrl)
+      .toPromise();
+  }
+
 }
