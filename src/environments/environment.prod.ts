@@ -8,9 +8,9 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080',
-  apiEndpoint: 'https://localhost',
-  tokenWhitelistedDomains: ['localhost:8080'],
+  apiUrl: 'http://ec2-18-231-109-228.sa-east-1.compute.amazonaws.com:8080',
+  apiEndpoint: 'http://ec2-18-231-109-228.sa-east-1.compute.amazonaws.com',
+  tokenWhitelistedDomains: ['ec2-18-231-109-228.sa-east-1.compute.amazonaws.com:8080'],
   tokenBlacklistedRoutes: [new RegExp('\/oauth\/token')]
 
   // tokenWhitelistedDomains: [ new RegExp('localhost') ],
