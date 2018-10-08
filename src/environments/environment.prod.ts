@@ -7,10 +7,17 @@
 }; */
 
 export const environment = {
-  production: false,
+  production: true,
   apiUrl: 'http://localhost:8080',
+  apiEndpoint: 'https://localhost',
+  tokenWhitelistedDomains: ['localhost:8080'],
+  tokenBlacklistedRoutes: [new RegExp('\/oauth\/token')]
 
-  tokenWhitelistedDomains: [ new RegExp('localhost:8080') ],
-  tokenBlacklistedRoutes: [ new RegExp('\/oauth\/token') ]
+  // tokenWhitelistedDomains: [ new RegExp('localhost') ],
+  // tokenBlacklistedRoutes: [ new RegExp('\/oauth\/token') ]
+
+
+
+  //  tokenWhitelistedDomains: [ /localhost/ ],
 };
 

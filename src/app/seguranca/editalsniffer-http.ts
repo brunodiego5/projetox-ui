@@ -60,6 +60,7 @@ export class EditalSnifferHttp extends HttpClient {
 
       return observableFromPromise(chamadaNovoAccessToken);
     } else {
+      console.log('Requisição HTTP com access token válido.');
       return fn();
     }
   }
