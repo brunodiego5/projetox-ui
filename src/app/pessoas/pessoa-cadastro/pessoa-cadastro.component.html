@@ -3,7 +3,7 @@
   
       <div class="ui-g">
         <div class="ui-g-12">
-          <h1>Nova Pessoa</h1>
+          <h1>{{ editando ? 'Edição de' : 'Nova' }} Pessoa</h1>
         </div>
   
         <div class="ui-g-12 ui-fluid">
@@ -15,7 +15,7 @@
           <app-message [control]="nome" error="required"
             text="Informe o nome"></app-message>
           <app-message [control]="nome" error="minlength"
-            text="Mínimo de {{ nome.errors?.minlength?.requiredLength }} caracteres"></app-message>
+            text="Mínimo de {{ nome?.errors?.minlength?.requiredLength }} caracteres"></app-message>
         </div>
   
         <div class="ui-g-12 ui-md-9 ui-fluid">

@@ -1,0 +1,43 @@
+<div class="container">
+  <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1>{{ editando ? 'Edição de' : 'Novo' }} Item</h1>
+      </div>
+
+      <div class="ui-g-12 ui-md-12 ui-fluid" *ngFor= "let item of itens">
+      <div class="ui-g-12 ui-md-11 ui-fluid">
+        <label>Descrição</label>
+        <textarea pInputTextarea name="descricao"
+          [(ngModel)]="item.descricao" autoResize="autoResize"
+          #descricao="ngModel" required minlength="5">
+        </textarea>
+
+        <app-message [control]="descricao" error="required"
+          text="Informe a descrição"></app-message>
+        <app-message [control]="descricao" error="minlength"
+          text="Mínimo de {{ descricao?.errors?.minlength?.requiredLength }} caracteres"></app-message>
+      </div>
+
+      <div class="ui-g-1 ui-md-1 ui-fluid">
+        <label>Atende</label>
+        <p-checkbox [(ngModel)]="item.atende" binary="true"
+          name="atende" #atende="ngModel" required></p-checkbox>
+
+        <app-message [control]="atende" error="required"
+          text="Informe se atende"></app-message>
+      </div>
+      </div>
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Salvar" [disabled]="f.invalid"></button>
+        <button pButton type="button" label="Novo" class="ui-button-info"
+          (click)="novo(f)"></button>
+
+        <a routerLink="/itens">Voltar para a pesquisa</a>
+      </div>
+    </div>
+
+  </form>
+</div>

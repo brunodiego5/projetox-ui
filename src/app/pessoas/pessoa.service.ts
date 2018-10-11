@@ -49,7 +49,7 @@ export class PessoaService {
         };
 
         return resultado;
-      })
+      }); // coloquei o ;
   }
 
   listarTodas(): Promise<any> {
