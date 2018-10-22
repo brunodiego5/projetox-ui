@@ -16,8 +16,6 @@ import { Item } from './../../core/model/Item';
 })
 export class ItensCadastroComponent implements OnInit {
 
-  // item = new Item();
-  // itens: Item[] = [];
   formulario: FormGroup;
 
   constructor(
@@ -32,7 +30,6 @@ export class ItensCadastroComponent implements OnInit {
 
   ngOnInit() {
     this.configurarFormulario();
-    console.log(this.formulario);
     const idItem = this.route.snapshot.params['id'];
 
     this.title.setTitle('Novo item');
@@ -71,10 +68,7 @@ export class ItensCadastroComponent implements OnInit {
   }
 
   get editando() {
-    // return Boolean(this.item.id);
-    // return Boolean(this.itens[0].id);
-    // var array = itens();
-    return Boolean(this.itens.at(0));
+    return Boolean(this.formulario.value.itens[0].id);
   }
 
   carregarItem(id: number) {
@@ -83,7 +77,7 @@ export class ItensCadastroComponent implements OnInit {
         // this.item = item;
         // this.itens[0] = item;
 
-        this.formulario.patchValue(item);
+        this.itens.patchValue(item);
 
         this.atualizarTituloEdicao();
       },
@@ -101,14 +95,15 @@ export class ItensCadastroComponent implements OnInit {
   adicionarItem(form: FormControl) {
     // this.itemService.adicionar(this.item)
     // this.itemService.adicionarLista(this.itens)
-    this.itemService.adicionarLista(this.formulario.value)
+
+    // this.item = this.formulario.value;
+
+    console.log('adicionar');
+    this.itemService.adicionarLista(this.formulario.value.itens)
       .subscribe(itemAdicionada => {
         this.messageService.add({ severity: 'success', detail: 'Item adicionado com sucesso!' });
-
+        this.itens.patchValue(itemAdicionada);
         // this.router.navigate(['/itens', itemAdicionada.id]);
-        // this.itens = itemAdicionada;
-        // this.formulario
-
       },
       erro => this.errorHandler.handle(erro));
   }
@@ -116,11 +111,12 @@ export class ItensCadastroComponent implements OnInit {
   atualizarItem(form: FormControl) {
     // this.itemService.atualizar(this.item)
     // this.itemService.atualizarLista(this.itens)
-    this.itemService.atualizarLista(this.formulario.value)
+    console.log('atualizar');
+    this.itemService.atualizarLista(this.formulario.value.itens)
       .subscribe(item => {
 
         // this.itens = item;
-        this.formulario.patchValue(item);
+        this.itens.patchValue(item);
 
         this.messageService.add({ severity: 'success', detail: 'Item alterada com sucesso!' });
         this.atualizarTituloEdicao();
@@ -130,7 +126,7 @@ export class ItensCadastroComponent implements OnInit {
 
   novo() {
     // form.reset();
-    this.formulario.reset(); // teste
+    // this.formulario.reset(); // teste
 
     setTimeout(function() {
       // this.item = new Item();
@@ -148,7 +144,7 @@ export class ItensCadastroComponent implements OnInit {
 
   atualizarTituloEdicao() {
     // this.title.setTitle(`Edição de item: ${this.item.descricao}`);
-    this.title.setTitle(`Edição de item: ${this.itens[0].descricao}`);
+    this.title.setTitle(`Edição de item: ${this.formulario.value.itens[0].descricao}`);
   }
 
 
