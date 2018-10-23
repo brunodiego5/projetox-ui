@@ -3,12 +3,12 @@
 
     <div class="ui-g">
       <div class="ui-g-12">
-        <h1>{{ editando ? 'Edição de' : 'Novo' }} Item</h1>
+        <h1>Cadastro de Item</h1>
       </div>
 
       <div class="ui-g-12 ui-md-12" formArrayName="itens">
         <div class="ui-g" *ngFor= "let item of formulario.controls.itens.controls; let itemIndex = index " [formGroupName]="itemIndex">
-          <div class="ui-g-12 ui-md-11 ui-fluid">
+          <div class="ui-g-12 ui-md-10 ui-fluid">
             <label>Descrição</label>
             <textarea pInputTextarea
               name="descricao"
@@ -16,6 +16,11 @@
               minlength="5"
               formControlName="descricao">
             </textarea>
+
+            <!--<app-message [control]="formulario.get['itens'].get('descricao')" error="obrigatoriedade"
+              text="Informe a descrição"></app-message> -->
+            <!-- app-message [control]="formulario.get('itens').get('descricao')" error="tamanhoMinimo"
+              text="Mínimo de {{ formulario.get('itens').get('descricao').errors?.tamanhoMinimo?.tamanho }} caracteres"></app-message> -->
           </div>
 
           <div class="ui-g-1 ui-md-1 ui-fluid">
@@ -24,13 +29,19 @@
               name="atende"
               formControlName="atende"></p-checkbox>
           </div>
+
+          <div class="ui-g-1 ui-md-1 ui-fluid">
+            <button pButton icon="fa fa-trash"
+                pTooltip="Excluir" tooltipPosition="top"
+                (click)="excluir(itemIndex)"></button>
+          </div>
+
         </div>
       </div>
 
       <div class="ui-g-12">
         <button pButton type="submit" label="Salvar" [disabled]="formulario.invalid"></button>
-        <button pButton type="button" label="Novo" class="ui-button-info"
-          (click)="novo()"></button>
+        <button pButton type="button" label="Novo" class="ui-button-info" (click)="novo()"></button>
 
         <a routerLink="/itens">Voltar para a pesquisa</a>
       </div>

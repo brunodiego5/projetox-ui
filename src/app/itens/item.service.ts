@@ -54,18 +54,6 @@ export class ItemService {
     return this.http.get<Item>(`${this.itensUrl}/${id}`);
   }
 
-  adicionar(item: Item): Observable<Item> {
-    return this.http.post<Item>(this.itensUrl, item);
-  }
-
-  adicionarLista(itens: Item[]): Observable<Item[]> {
-    return this.http.post<Array<Item>>(`${this.itensUrl}/lista`, itens);
-  }
-
-  atualizar(item: Item): Observable<Item> {
-    return this.http.put<Item>(`${this.itensUrl}/${item.id}`, item);
-  }
-
   atualizarLista(itens: Item[]): Observable<Item[]> {
     return this.http.put<Array<Item>>(`${this.itensUrl}/lista`, itens);
   }

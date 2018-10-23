@@ -32,14 +32,11 @@ export class ItensCadastroComponent implements OnInit {
     this.configurarFormulario();
     const idItem = this.route.snapshot.params['id'];
 
-    this.title.setTitle('Novo item');
+    this.title.setTitle('Cadastro de item');
 
     if (idItem) {
       this.carregarItem(idItem);
     }
-    // else {
-    //  this.itens.push(new Item());
-    // }
   }
 
   configurarFormulario() {
@@ -67,71 +64,31 @@ export class ItensCadastroComponent implements OnInit {
     };
   }
 
-  get editando() {
-    return Boolean(this.formulario.value.itens[0].id);
-  }
-
   carregarItem(id: number) {
     this.itemService.buscarPorId(id)
       .subscribe(item => {
-        // this.item = item;
-        // this.itens[0] = item;
-
-        this.itens.patchValue(item);
-
-        this.atualizarTituloEdicao();
+        console.log(item);
+        this.formulario.value.itens[0] = item;
       },
       erro => this.errorHandler.handle(erro));
   }
 
   salvar(form: FormControl) {
-    if (this.editando) {
       this.atualizarItem(form);
-    } else {
-      this.adicionarItem(form);
-    }
-  }
-
-  adicionarItem(form: FormControl) {
-    // this.itemService.adicionar(this.item)
-    // this.itemService.adicionarLista(this.itens)
-
-    // this.item = this.formulario.value;
-
-    console.log('adicionar');
-    this.itemService.adicionarLista(this.formulario.value.itens)
-      .subscribe(itemAdicionada => {
-        this.messageService.add({ severity: 'success', detail: 'Item adicionado com sucesso!' });
-        this.itens.patchValue(itemAdicionada);
-        // this.router.navigate(['/itens', itemAdicionada.id]);
-      },
-      erro => this.errorHandler.handle(erro));
   }
 
   atualizarItem(form: FormControl) {
-    // this.itemService.atualizar(this.item)
-    // this.itemService.atualizarLista(this.itens)
-    console.log('atualizar');
     this.itemService.atualizarLista(this.formulario.value.itens)
       .subscribe(item => {
-
-        // this.itens = item;
         this.itens.patchValue(item);
 
-        this.messageService.add({ severity: 'success', detail: 'Item alterada com sucesso!' });
-        this.atualizarTituloEdicao();
+        this.messageService.add({ severity: 'success', detail: `${this.itens.length > 1  ? 'itens' : 'item'} salvo com sucesso!`});
       },
       erro => this.errorHandler.handle(erro));
   }
 
   novo() {
-    // form.reset();
-    // this.formulario.reset(); // teste
-
     setTimeout(function() {
-      // this.item = new Item();
-      // this.itens.push(new Item());
-      // let item = this.formBuilder.group(new itens());
       this.itens.push(this.formBuilder.group({
         id: [],
         descricao: [null, [ this.validarObrigatoriedade, this.validarTamanhoMinimo(5) ]],
@@ -142,10 +99,7 @@ export class ItensCadastroComponent implements OnInit {
     this.router.navigate(['/itens/novo']);
   }
 
-  atualizarTituloEdicao() {
-    // this.title.setTitle(`Edição de item: ${this.item.descricao}`);
-    this.title.setTitle(`Edição de item: ${this.formulario.value.itens[0].descricao}`);
+  excluir(itemIndex: number) {
+    this.itens.removeAt(itemIndex);
   }
-
-
 }
