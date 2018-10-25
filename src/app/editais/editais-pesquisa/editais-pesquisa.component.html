@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="ui-g">
+
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+
+      <div class="ui-g-12">
+        <h1>Editais</h1>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Ano</label>
+        <input pInputText type="text" name="ano" [(ngModel)]="filtro.ano">
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Processo</label>
+        <input pInputText type="text" name="processo" [(ngModel)]="filtro.processo">
+      </div>
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Pesquisar"></button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-table [value]="editais" [responsive]="true"
+        [paginator]="true" [rows]="filtro.itensPorPagina"
+        [lazy]="true" [totalRecords]="totalRegistros"
+        (onLazyLoad)="aoMudarPagina($event)"
+        #tabela>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Ano</th>
+            <th>Processo</th>
+            <th>Cidade</th>
+            <th>Estado</th>
+            <!--<th>Objeto</th>-->
+            <th class="col-data-header">Abertura</th>
+            <th>Concorrente</th>
+            <th class="col-acoes-header"></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-edital>
+          <tr>
+            <td>{{ edital.ano }}</td>
+            <td>{{ edital.processo }}</td>
+            <td>{{ edital.cidade?.nome }}</td>
+            <td>{{ edital.cidade?.estado.nome }}</td>
+            <!--<td>{{ edital.objeto }}</td>-->
+            <td class="col-data">{{ edital.dataAbertura | date:'dd/MM/yyyy' }}</td>
+            <td>{{ edital.concorrente?.nome }}</td>
+            <td class="col-acoes">
+              <a pButton icon="fa fa-pencil"
+                pTooltip="Editar" tooltipPosition="top"
+                [routerLink]="['/editais', edital.id]"></a>
+
+              <button pButton icon="fa fa-trash"
+                pTooltip="Excluir" tooltipPosition="top"
+                (click)="confirmarExclusao(edital)"></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">
+              Nenhum edital encontrado
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="ui-g-12">
+      <a pButton label="Novo Edital" routerLink="/editais/novo"></a>
+    </div>
+  </div>
+
+</div>

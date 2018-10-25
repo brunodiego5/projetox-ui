@@ -22,6 +22,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NaoAutorizadoComponent } from './nao-autorizado.component';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { EditalSnifferHttp } from '../seguranca/editalsniffer-http';
+import { EditalService } from '../editais/edital.service';
+import { ItemService } from './../itens/item.service';
 
 registerLocaleData(localePt);
 
@@ -45,6 +47,8 @@ registerLocaleData(localePt);
     ConfirmDialogModule
   ],
   providers: [
+    EditalService,
+    ItemService,
     LancamentoService,
     PessoaService,
     CategoriaService,

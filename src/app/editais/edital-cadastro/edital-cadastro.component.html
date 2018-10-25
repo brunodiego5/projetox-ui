@@ -1,0 +1,95 @@
+<div class="container">
+  <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
+
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1>{{ editando ? 'Edição de' : 'Novo' }} Edital</h1>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Ano</label>
+        <input pInputText type="number" name="ano"
+          [(ngModel)]="edital.ano"
+          #ano="ngModel" required minlength="4" maxlength="4">
+
+        <app-message [control]="ano" error="required"
+          text="Informe o ano"></app-message>
+        <app-message [control]="ano" error="minlength"
+          text="Mínimo de {{ ano?.errors?.minlength?.requiredLength }} caracteres"></app-message>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Processo</label>
+        <input pInputText type="text" name="processo"
+          [(ngModel)]="edital.processo"
+          #processo="ngModel" required minlength="1" maxlength="30">
+
+        <app-message [control]="processo" error="required"
+          text="Informe o processo"></app-message>
+        <app-message [control]="processo" error="minlength"
+          text="Mínimo de {{ processo?.errors?.minlength?.requiredLength }} caracteres"></app-message>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Estado</label>
+
+        <p-dropdown placeholder="Selecione..." [autoWidth]="false"
+          [filter]="true" [options]="estados"
+          [(ngModel)]="estadoSelecionado" name="estadoSelecionado"
+          (onChange)="carregarCidades()"
+          #estado="ngModel" required></p-dropdown>
+
+        <app-message [control]="estado" error="required"
+          text="Informe o estado"></app-message>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+          <label>Cidade</label>
+
+          <p-dropdown placeholder="Selecione..." [autoWidth]="false"
+            [filter]="true" [options]="cidades"
+            [(ngModel)]="edital.cidade.codigo" name="cidade"
+            #cidade="ngModel" required
+            [disabled]="!estadoSelecionado"></p-dropdown>
+
+          <app-message [control]="cidade" error="required"
+            text="Informe a cidade"></app-message>
+      </div>
+
+      <div class="ui-g-12 ui-md-12 ui-fluid">
+        <label>Objeto</label>
+        <textarea pInputTextarea
+          [(ngModel)]="edital.objeto" name="objeto"
+          #objeto="ngModel" autoResize="autoResize">
+        </textarea>
+      </div>
+
+      <div class="ui-g-6 ui-md-3 ui-fluid">
+        <label>Abertura</label>
+        <p-calendar name="abertura" dateFormat="dd/mm/yy"
+        [inline]="false" [readonlyInput]="false" [showIcon]="false"
+        [(ngModel)]="edital.dataAbertura"
+        #abertura="ngModel"></p-calendar>
+      </div>
+      <!--[inline]="false" [readonlyInput]="false" [showIcon]="false">-->
+
+      <div class="ui-g-12 ui-md-6 ui-fluid">
+        <label>Concorrente</label>
+
+        <p-dropdown placeholder="Selecione..." [autoWidth]="false"
+          [filter]="true" [options]="concorrentes"
+          [(ngModel)]="edital.concorrente.id" name="concorrente"
+          #concorrente="ngModel"></p-dropdown>
+      </div>
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Salvar" [disabled]="f.invalid"></button>
+        <button pButton type="button" label="Nova" class="ui-button-info"
+          (click)="novo(f)"></button>
+
+        <a routerLink="/editais">Voltar para a pesquisa</a>
+      </div>
+    </div>
+
+  </form>
+</div>
