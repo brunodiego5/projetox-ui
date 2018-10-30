@@ -1,4 +1,4 @@
 export class Concorrente {
-  id: number = null;
+  id: number;
   nome: string;
 }

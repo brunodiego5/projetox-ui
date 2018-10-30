@@ -59,6 +59,7 @@ export class EditalService {
   }
 
   adicionar(edital: Edital): Observable<Edital> {
+    console.log(edital);
     return this.http.post<Edital>(this.editaisUrl, edital);
   }
 

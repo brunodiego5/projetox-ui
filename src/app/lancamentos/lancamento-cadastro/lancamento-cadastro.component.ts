@@ -113,7 +113,7 @@ export class LancamentoCadastroComponent implements OnInit {
         nome: []
       }),
       categoria: this.formBuilder.group({
-        codigo: [ null, Validators.required ],
+        codigo: [ null ],
         nome: []
       }),
       observacao: [],
