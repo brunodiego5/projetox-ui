@@ -9,6 +9,7 @@ import { ErrorHandlerService } from './../../core/error-handler.service';
 import { EditalService } from './../edital.service';
 import { ConcorrenteService } from './../../concorrentes/concorrente.service';
 import { Edital } from './../../core/model/Edital';
+import { Concorrente } from 'src/app/core/model/Concorrente';
 
 @Component({
   selector: 'app-edital-cadastro',
@@ -76,6 +77,12 @@ export class EditalCadastroComponent implements OnInit {
   carregarEdital(id: number) {
     this.editalService.buscarPorId(id)
       .subscribe(edital => {
+
+        /* Quando o objeto pode vim nulo, vc deve instancia-lo */
+        if (!edital.concorrente) {
+          edital.concorrente = new Concorrente();
+        }
+
         this.edital = edital;
 
         this.editalService.converterStringsParaDatas([this.edital]);
@@ -112,6 +119,12 @@ export class EditalCadastroComponent implements OnInit {
   atualizarEdital(form: FormControl) {
     this.editalService.atualizar(this.edital)
       .subscribe(edital => {
+
+        /* Quando o objeto pode vim nulo, vc deve instancia-lo */
+        if (!edital.concorrente) {
+          edital.concorrente = new Concorrente();
+        }
+
         this.edital = edital;
 
         this.editalService.converterStringsParaDatas([this.edital]);
@@ -133,7 +146,7 @@ export class EditalCadastroComponent implements OnInit {
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de edital: ${this.edital.ano}-${this.edital.processo}-${this.edital.cidade}-${this.edital.cidade.estado}`);
+    this.title.setTitle(`Edição de edital: ${this.edital.ano}/${this.edital.processo} - ${this.edital.cidade.nome}`);
   }
 
 }

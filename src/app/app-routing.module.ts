@@ -9,8 +9,8 @@ import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada.compo
 // import { ItensPesquisaComponent } from './itens/itens-pesquisa/itens-pesquisa.component';
 
 const routes: Routes = [
-  { path: 'lancamentos', loadChildren: './lancamentos/lancamentos.module#LancamentosModule' },
-  /* { path: 'pessoas', loadChildren: './pessoas/pessoas.module#PessoasModule' },
+  /* { path: 'lancamentos', loadChildren: './lancamentos/lancamentos.module#LancamentosModule' },
+  { path: 'pessoas', loadChildren: './pessoas/pessoas.module#PessoasModule' },
   { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule'},
   { path: 'relatorios', loadChildren: './relatorios/relatorios.module#RelatoriosModule' }, */
   { path: 'itens', loadChildren: './itens/itens.module#ItensModule' },

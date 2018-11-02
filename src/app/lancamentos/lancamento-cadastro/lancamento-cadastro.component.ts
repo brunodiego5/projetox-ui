@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { CategoriaService } from './../../categorias/categoria.service';
 import { PessoaService } from './../../pessoas/pessoa.service';
-import { Lancamento } from './../../core/model';
+import { Lancamento, Categoria } from './../../core/model';
 import { LancamentoService } from './../lancamento.service';
 
 @Component({
@@ -139,7 +139,12 @@ export class LancamentoCadastroComponent implements OnInit {
   carregarLancamento(codigo: number) {
     this.lancamentoService.buscarPorCodigo(codigo)
       .then(lancamento => {
-        // this.lancamento = lancamento;
+
+        /* Quando o objeto pode vim nulo, vc deve instancia-lo */
+        if (!lancamento.categoria) {
+          lancamento.categoria = new Categoria();
+        }
+
         this.formulario.patchValue(lancamento);
         this.atualizarTituloEdicao();
       })
@@ -169,6 +174,12 @@ export class LancamentoCadastroComponent implements OnInit {
   atualizarLancamento() {
     this.lancamentoService.atualizar(this.formulario.value)
       .then(lancamento => {
+
+        /* Quando o objeto pode vim nulo, vc deve instancia-lo */
+        if (!lancamento.categoria) {
+          lancamento.categoria = new Categoria();
+        }
+
         // this.lancamento = lancamento;
         this.formulario.patchValue(lancamento);
 
