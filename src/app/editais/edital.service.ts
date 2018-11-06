@@ -31,6 +31,10 @@ export class EditalService {
     this.cidadesUrl = `${environment.apiUrl}/cidades`;
   }
 
+  urlUploadAnexo(): string {
+    return `${this.editaisUrl}/anexo`;
+  }
+
   pesquisar(filtro: EditalFiltro): Observable<any> {
     let params = new HttpParams({
       fromObject: {

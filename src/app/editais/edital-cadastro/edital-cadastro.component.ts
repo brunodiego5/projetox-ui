@@ -23,6 +23,7 @@ export class EditalCadastroComponent implements OnInit {
   cidades: any[];
   estadoSelecionado: number;
   concorrentes: any[];
+  uploadEmAndamento = false;
 
   constructor(
     private editalService: EditalService,
@@ -33,6 +34,46 @@ export class EditalCadastroComponent implements OnInit {
     private router: Router,
     private title: Title
   ) { }
+
+  antesUploadAnexo(event) {
+    event.xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+    this.uploadEmAndamento = true;
+  }
+
+  aoTerminarUploadAnexo(event) {
+    const anexo = JSON.parse(event.xhr.response);
+
+    this.edital.anexo = anexo.nome;
+    this.edital.urlAnexo = anexo.url;
+
+    this.uploadEmAndamento = false;
+  }
+
+  erroUpload(event) {
+    this.messageService.add({ severity: 'error', detail: 'Erro ao tentar enviar anexo!' });
+
+    this.uploadEmAndamento = false;
+  }
+
+  removerAnexo() {
+    this.edital.anexo = null;
+    this.edital.urlAnexo = null;
+  }
+
+  get nomeAnexo() {
+    const nome = this.edital.anexo;
+
+    if (nome) {
+      return nome.substring(nome.indexOf('_') + 1, nome.length);
+    }
+
+    return '';
+  }
+
+  get urlUploadAnexo() {
+    return this.editalService.urlUploadAnexo();
+  }
 
   ngOnInit() {
     const idEdital = this.route.snapshot.params['id'];

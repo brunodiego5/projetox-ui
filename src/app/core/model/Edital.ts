@@ -9,4 +9,6 @@ export class Edital {
   objeto: string;
   dataAbertura: Date;
   concorrente = new Concorrente();
+  anexo: string;
+  urlAnexo: string;
 }

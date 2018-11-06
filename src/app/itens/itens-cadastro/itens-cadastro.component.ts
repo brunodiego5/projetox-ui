@@ -75,11 +75,11 @@ export class ItensCadastroComponent implements OnInit {
       erro => this.errorHandler.handle(erro));
   }
 
-  salvar(form: FormControl) {
-      this.atualizarItem(form);
+  salvar() {
+      this.atualizarItem();
   }
 
-  atualizarItem(form: FormControl) {
+  atualizarItem() {
     this.itemService.atualizarLista(this.formulario.value.itens)
       .subscribe(item => {
         this.itens.patchValue(item);

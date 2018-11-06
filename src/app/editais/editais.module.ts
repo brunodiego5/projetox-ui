@@ -10,6 +10,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { EditaisRoutingModule } from './editais-routing.module';
 import { EditalCadastroComponent } from './edital-cadastro/edital-cadastro.component';
@@ -29,6 +31,8 @@ import { SharedModule } from './../shared/shared.module';
     DropdownModule,
     InputTextareaModule,
     CalendarModule,
+    FileUploadModule,
+    ProgressSpinnerModule,
 
     SharedModule,
     EditaisRoutingModule
