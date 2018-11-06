@@ -17,6 +17,7 @@ import { Item } from './../../core/model/Item';
 export class ItensCadastroComponent implements OnInit {
 
   formulario: FormGroup;
+  ids: number[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -65,10 +66,11 @@ export class ItensCadastroComponent implements OnInit {
   }
 
   carregarItem(id: number) {
-    this.itemService.buscarPorId(id)
+    this.ids.push(id);
+
+    this.itemService.buscarPorIds(this.ids)
       .subscribe(item => {
-        console.log(item);
-        this.formulario.value.itens[0] = item;
+        this.itens.patchValue(item);
       },
       erro => this.errorHandler.handle(erro));
   }

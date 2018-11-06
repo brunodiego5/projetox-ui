@@ -57,4 +57,10 @@ export class ItemService {
   atualizarLista(itens: Item[]): Observable<Item[]> {
     return this.http.put<Array<Item>>(`${this.itensUrl}/lista`, itens);
   }
+
+  buscarPorIds(ids: number[]): Observable<Item[]> {
+    const idsStr = ids.join(', ');
+
+    return this.http.get<Array<Item>>(`${this.itensUrl}/lista/${idsStr}`);
+  }
 }

@@ -23,16 +23,16 @@
               text="Mínimo de {{ formulario.get('itens').get('descricao').errors?.tamanhoMinimo?.tamanho }} caracteres"></app-message> -->
           </div>
 
-          <div class="ui-g-1 ui-md-1 ui-fluid">
-            <label>Atende</label>
+          <div class="ui-g-1 ui-md-1 ui-fluid conteudoNoCentroVerticalmente">
+            <label>Atende  </label>
             <p-checkbox binary="true"
               name="atende"
               formControlName="atende"></p-checkbox>
           </div>
 
-          <div class="ui-g-1 ui-md-1 ui-fluid">
-            <button pButton icon="fa fa-trash"
-                pTooltip="Excluir" tooltipPosition="top"
+          <div class="ui-g-1 ui-md-1 ui-fluid conteudoNoCentroVerticalmente">
+            <button pButton icon="fa fa-close"
+                pTooltip="Remover item" tooltipPosition="top"
                 (click)="excluir(itemIndex)"></button>
           </div>
 
