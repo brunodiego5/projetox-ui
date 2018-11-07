@@ -89,11 +89,11 @@ export class ItensCadastroComponent implements OnInit {
       erro => this.errorHandler.handle(erro));
   }
 
-  novo() {
+  novo(descricao: string = null) {
     setTimeout(function() {
       this.itens.push(this.formBuilder.group({
         id: [],
-        descricao: [null, [ this.validarObrigatoriedade, this.validarTamanhoMinimo(5) ]],
+        descricao: [ descricao, [ this.validarObrigatoriedade, this.validarTamanhoMinimo(5) ]],
         atende: [ false, Validators.required ]
       }));
     }.bind(this), 1);
@@ -103,5 +103,24 @@ export class ItensCadastroComponent implements OnInit {
 
   excluir(itemIndex: number) {
     this.itens.removeAt(itemIndex);
+  }
+
+  aoColarNaDescricao(event: ClipboardEvent, itemIndex: number) {
+    let excluirControl: Boolean = false;
+
+    event.clipboardData
+      .getData('Text')
+      .split(/\n/)
+      .forEach(value => {
+        excluirControl = true;
+        if (value.trim()) {
+            this.novo(value.trim());
+        }
+      }
+      );
+
+      if (excluirControl) {
+        this.excluir(itemIndex);
+      }
   }
 }
