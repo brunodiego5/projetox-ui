@@ -17,8 +17,21 @@
               minlength="5"
               formControlName="descricao"
               (paste)="aoColarNaDescricao($event, itemIndex)"
-              autocomplete="on">
+              (keydown)="pesquisarItens($event)">
             </textarea>
+
+            <div *ngFor="let item of itensEncontrado">
+              <p>
+                {{item?.descricao}}
+              </p>
+            </div>
+
+            <div *ngIf="itensEncontrado?.length < 1">
+                <hr>
+                <p>
+                  Nenhum item encontrado.
+                </p>
+            </div>
 
             <!-- <app-message [control]="formulario.get('itens').at(itemIndex).get('descricao')" error="obrigatoriedade"
               text="Informe a descrição"></app-message> -->
