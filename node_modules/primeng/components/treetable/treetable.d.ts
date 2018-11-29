@@ -113,7 +113,10 @@ export declare class TreeTable implements AfterContentInit, OnInit, OnDestroy, B
     selectionKeys: any;
     rowTouched: boolean;
     editingCell: Element;
+    editingCellClick: boolean;
+    documentEditListener: any;
     initialized: boolean;
+    toggleRowIndex: number;
     ngOnInit(): void;
     ngAfterContentInit(): void;
     constructor(el: ElementRef, domHandler: DomHandler, objectUtils: ObjectUtils, zone: NgZone, tableService: TreeTableService);
@@ -160,6 +163,10 @@ export declare class TreeTable implements AfterContentInit, OnInit, OnDestroy, B
     isMultipleSelectionMode(): boolean;
     equals(node1: any, node2: any): boolean;
     reset(): void;
+    updateEditingCell(cell: any): void;
+    isEditingCellValid(): boolean;
+    bindDocumentEditListener(): void;
+    unbindDocumentEditListener(): void;
     ngOnDestroy(): void;
 }
 export declare class TTBody {
@@ -213,6 +220,7 @@ export declare class TTSortableColumn implements OnInit, OnDestroy {
     ngOnInit(): void;
     updateSortState(): void;
     onClick(event: MouseEvent): void;
+    onEnterKey(event: MouseEvent): void;
     isEnabled(): boolean;
     ngOnDestroy(): void;
 }
@@ -284,6 +292,7 @@ export declare class TTSelectableRow implements OnInit, OnDestroy {
     constructor(tt: TreeTable, domHandler: DomHandler, tableService: TreeTableService);
     ngOnInit(): void;
     onClick(event: Event): void;
+    onEnterKey(event: Event): void;
     onTouchEnd(event: Event): void;
     isEnabled(): boolean;
     ngOnDestroy(): void;
@@ -357,9 +366,9 @@ export declare class TTEditableColumn implements AfterViewInit {
     ttEditableColumnDisabled: boolean;
     constructor(tt: TreeTable, el: ElementRef, domHandler: DomHandler, zone: NgZone);
     ngAfterViewInit(): void;
-    isValid(): boolean;
     onClick(event: MouseEvent): void;
     openCell(): void;
+    closeEditingCell(): void;
     onKeyDown(event: KeyboardEvent): void;
     findCell(element: any): any;
     moveToPreviousCell(event: KeyboardEvent): void;
@@ -376,6 +385,16 @@ export declare class TreeTableCellEditor implements AfterContentInit {
     outputTemplate: TemplateRef<any>;
     constructor(tt: TreeTable, editableColumn: TTEditableColumn);
     ngAfterContentInit(): void;
+}
+export declare class TTRow {
+    tt: TreeTable;
+    el: ElementRef;
+    domHandler: DomHandler;
+    zone: NgZone;
+    rowNode: any;
+    constructor(tt: TreeTable, el: ElementRef, domHandler: DomHandler, zone: NgZone);
+    onKeyDown(event: KeyboardEvent): void;
+    restoreFocus(): void;
 }
 export declare class TreeTableToggler {
     tt: TreeTable;

@@ -1,4 +1,4 @@
-import { ElementRef, OnDestroy, EventEmitter, Renderer2, NgZone } from '@angular/core';
+import { ElementRef, OnDestroy, EventEmitter, Renderer2, NgZone, ChangeDetectorRef } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const SLIDER_VALUE_ACCESSOR: any;
@@ -7,6 +7,7 @@ export declare class Slider implements OnDestroy, ControlValueAccessor {
     domHandler: DomHandler;
     renderer: Renderer2;
     private ngZone;
+    cd: ChangeDetectorRef;
     animate: boolean;
     disabled: boolean;
     min: number;
@@ -19,7 +20,7 @@ export declare class Slider implements OnDestroy, ControlValueAccessor {
     onChange: EventEmitter<any>;
     onSlideEnd: EventEmitter<any>;
     value: number;
-    values: number;
+    values: number[];
     handleValue: number;
     handleValues: number[];
     onModelChange: Function;
@@ -36,7 +37,7 @@ export declare class Slider implements OnDestroy, ControlValueAccessor {
     startHandleValue: any;
     startx: number;
     starty: number;
-    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, ngZone: NgZone);
+    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, ngZone: NgZone, cd: ChangeDetectorRef);
     onMouseDown(event: Event, index?: number): void;
     onTouchStart(event: any, index?: number): void;
     onTouchMove(event: any, index?: number): void;

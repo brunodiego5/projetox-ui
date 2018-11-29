@@ -8,14 +8,13 @@ export declare class ContextMenuSub {
     root: boolean;
     constructor(domHandler: DomHandler, contextMenu: ContextMenu);
     activeItem: any;
-    containerLeft: any;
+    containerOffset: any;
     hideTimeout: any;
     onItemMouseEnter(event: any, item: any, menuitem: any): void;
     onItemMouseLeave(event: any, link: any): void;
     itemClick(event: any, item: MenuItem): void;
     listClick(event: any): void;
     position(sublist: any, item: any): void;
-    calculateScrollbarWidth(): number;
 }
 export declare class ContextMenu implements AfterViewInit, OnDestroy {
     el: ElementRef;

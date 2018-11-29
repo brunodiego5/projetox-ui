@@ -62,8 +62,10 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     onListItemDroppoint: boolean;
     listHighlightTarget: boolean;
     listHighlightSource: boolean;
-    readonly SOURCE_LIST: number;
-    readonly TARGET_LIST: number;
+    focusedIndex: number;
+    focusedOption: any;
+    readonly SOURCE_LIST = -1;
+    readonly TARGET_LIST = 1;
     constructor(el: ElementRef, domHandler: DomHandler, objectUtils: ObjectUtils);
     ngAfterContentInit(): void;
     ngAfterViewChecked(): void;
@@ -75,7 +77,7 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     isItemVisible(item: any, listType: number): boolean;
     isVisibleInList(data: any[], item: any, filterValue: string): boolean;
     onItemTouchEnd(event: any): void;
-    private sortByIndexInList(items, list);
+    private sortByIndexInList;
     moveUp(listElement: any, list: any, selectedItems: any, callback: any): void;
     moveTop(listElement: any, list: any, selectedItems: any, callback: any): void;
     moveDown(listElement: any, list: any, selectedItems: any, callback: any): void;
@@ -97,6 +99,10 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     onListMouseMove(event: MouseEvent, listType: number): void;
     onListDragLeave(): void;
     resetFilter(): void;
+    onKeyDown(event: KeyboardEvent): void;
+    indexWithDisplay(element: any): number;
+    findPrevOption(row: any): any;
+    findNextOption(row: any): any;
 }
 export declare class PickListModule {
 }

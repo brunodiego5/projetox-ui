@@ -21,7 +21,7 @@ export declare class FileUpload implements OnInit, AfterViewInit, AfterContentIn
     invalidFileSizeMessageDetail: string;
     invalidFileTypeMessageSummary: string;
     invalidFileTypeMessageDetail: string;
-    style: string;
+    style: any;
     styleClass: string;
     previewWidth: number;
     chooseLabel: string;
@@ -61,7 +61,7 @@ export declare class FileUpload implements OnInit, AfterViewInit, AfterContentIn
     isFileSelected(file: File): boolean;
     isIE11(): boolean;
     validate(file: File): boolean;
-    private isFileTypeValid(file);
+    private isFileTypeValid;
     getTypeClass(fileType: string): string;
     isWildcard(fileType: string): boolean;
     getFileExtension(file: File): string;

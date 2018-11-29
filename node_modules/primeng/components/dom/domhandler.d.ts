@@ -1,6 +1,7 @@
 export declare class DomHandler {
     static zindex: number;
     private calculatedScrollbarWidth;
+    private calculatedScrollbarHeight;
     private browser;
     addClass(element: any, className: string): void;
     addMultipleClasses(element: any, className: string): void;
@@ -10,6 +11,7 @@ export declare class DomHandler {
     find(element: any, selector: string): any[];
     findSingle(element: any, selector: string): any;
     index(element: any): number;
+    indexWithDisplay(element: any): number;
     indexWithinGroup(element: any, attributeName: string): number;
     relativePosition(element: any, target: any): void;
     absolutePosition(element: any, target: any): void;
@@ -43,6 +45,7 @@ export declare class DomHandler {
     removeChild(element: any, target: any): void;
     isElement(obj: any): boolean;
     calculateScrollbarWidth(): number;
+    calculateScrollbarHeight(): number;
     invokeElementMethod(element: any, methodName: string, args?: any[]): void;
     clearSelection(): void;
     getBrowser(): any;

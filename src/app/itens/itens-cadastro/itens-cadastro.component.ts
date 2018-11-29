@@ -49,14 +49,14 @@ export class ItensCadastroComponent implements OnInit {
       this.carregarItem(idItem);
     }
 
-    this.itensEncontrado = this.searchTerms
+    /*this.itensEncontrado = this.searchTerms
       .pipe(debounceTime(300),
         distinctUntilChanged(),
         switchMap(term => term ? this.itemService.pesquisar(term) : Observable.of<any[]>([]))),
         catchError(error => {
         console.log(error);
         return Observable.of<any[]>([]);
-      });
+      });*/
   }
 
   configurarFormulario() {
