@@ -38,6 +38,16 @@ export class ItemService {
     return this.http.get<any>(`${this.itensUrl}`, { params });
   }
 
+  pesquisarPorDescricao(descricao: string): Observable<Item[]> {
+    let params = new HttpParams();
+
+    if (descricao) {
+      params = params.append('descricao', descricao);
+    }
+
+    return this.http.get<Item[]>(`${this.itensUrl}/pesquisa`, { params });
+  }
+
   excluir(id: number): Observable<void> {
     return this.http.delete(`${this.itensUrl}/${id}`);
   }

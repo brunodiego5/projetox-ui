@@ -2,13 +2,13 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
+import { Observable, Subject, of, BehaviorSubject } from 'rxjs';
+import { debounceTime, switchMap, distinctUntilChanged, startWith, share, catchError } from 'rxjs/operators';
 
 import { MessageService } from 'primeng/components/common/messageservice';
 
 import { ErrorHandlerService } from './../../core/error-handler.service';
-import { ItemFiltro, ItemService } from './../item.service';
+import { ItemService } from './../item.service';
 import { Item } from './../../core/model/Item';
 
 @Component({
@@ -20,14 +20,13 @@ export class ItensCadastroComponent implements OnInit {
 
   formulario: FormGroup;
   ids: number[] = [];
+  public clazz: number[] = [];
 
-  itensEncontrado: Observable<any[]>;
-  private searchTerms = new Subject<string>();
-
-  ultimoKeyPress: number;
-  filtro = new ItemFiltro();
-  /* startAt = new Subject();
-  endAt = new Subject(); */
+  public itemEncontrado$:  Observable<Item[]>;
+  public itensEncontrado$:  Observable<Item[]>[] = [];
+  // public searchString: string;
+  // private searchTerms: Subject<string> = new Subject();
+  private searchsTerms: Subject<string>[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -49,15 +48,54 @@ export class ItensCadastroComponent implements OnInit {
       this.carregarItem(idItem);
     }
 
-    /*this.itensEncontrado = this.searchTerms
-      .pipe(debounceTime(300),
+    this.addItemNoObservable();
+
+    this.inicializarPesquisa(0);
+  }
+
+  addItemNoObservable() {
+    let item = new Observable<Item[]>();
+
+    const searchTerms: Subject<string> = new Subject();
+
+    item = searchTerms
+      .pipe(
+        // startWith(this.searchString),
+        debounceTime(500),
         distinctUntilChanged(),
-        switchMap(term => term ? this.itemService.pesquisar(term) : Observable.of<any[]>([]))),
-        catchError(error => {
-        console.log(error);
-        return Observable.of<any[]>([]);
+        switchMap((term) => this.itemService.pesquisarPorDescricao(term)),
+        share()
+      );
+
+    this.itensEncontrado$.push(item);
+    this.searchsTerms.push(searchTerms);
+  }
+
+  inicializarPesquisa(itemIndex: number) {
+    this.itensEncontrado$[itemIndex] = this.searchsTerms[itemIndex]
+    .pipe(
+      // startWith(this.searchString),
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap((term) => this.itemService.pesquisarPorDescricao(term)),
+      share()
+    );
+    /*this.itensEncontrado$.forEach(item => {
+        item = this.searchTerms
+        .pipe(
+          // startWith(this.searchString),
+          debounceTime(500),
+          distinctUntilChanged(),
+          switchMap((term) => this.itemService.pesquisarPorDescricao(term)),
+          share()
+        );
       });*/
   }
+
+  searchItens(term: string, itemIdex: number): void {
+    // this.searchString = term;
+    this.searchsTerms[itemIdex].next(term);
+}
 
   configurarFormulario() {
     this.formulario = this.formBuilder.group({
@@ -68,7 +106,6 @@ export class ItensCadastroComponent implements OnInit {
       })])
     });
   }
-
 
   get itens(): FormArray {
     return this.formulario.get('itens') as FormArray;
@@ -117,11 +154,15 @@ export class ItensCadastroComponent implements OnInit {
       }));
     }.bind(this), 1);
 
+    this.addItemNoObservable();
+
     this.router.navigate(['/itens/novo']);
   }
 
   excluir(itemIndex: number) {
     this.itens.removeAt(itemIndex);
+
+    // this.itensEncontrado$.(itemIndex);
   }
 
   aoColarNaDescricao(event: ClipboardEvent, itemIndex: number) {
@@ -143,26 +184,14 @@ export class ItensCadastroComponent implements OnInit {
       }
   }
 
-  pesquisarItens(event) {
-    if (event.timeStamp - this.ultimoKeyPress > 200) {
-      const  q = event.target.value;
-      /* this.startAt.next(q);
-      this.endAt.next(q + '\uf8ff'); */
-
-      this.filtro.pagina = 0;
-      this.filtro.descricao = q;
-
-      console.log(this.filtro.descricao);
-
-      this.itemService.pesquisar(this.filtro)
-      .subscribe(dados => {
-        /* this.totalRegistros = dados.totalElements; */
-        this.itensEncontrado = dados.content;
-      },
-      erro => this.errorHandler.handle(erro));
-    }
-
-    this.ultimoKeyPress = event.timeStamp;
-
+  limparPesquisa(itemIndex: number) {
+    this.inicializarPesquisa(itemIndex);
   }
+
+  atribuirItemPesquisa(item: Item, itemIndex: number) {
+    this.itens.at(itemIndex).patchValue(item);
+
+    this.limparPesquisa(itemIndex);
+  }
+
 }

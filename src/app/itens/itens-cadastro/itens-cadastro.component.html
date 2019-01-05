@@ -1,5 +1,5 @@
 <div class="container">
-  <form autocomplete="off" (ngSubmit)="salvar()" [formGroup]="formulario">
+  <form autocomplete="off" (ngSubmit)="salvar()" [formGroup]="formulario" (click)="limparPesquisa(0)">
 
     <div class="ui-g">
       <div class="ui-g-12">
@@ -17,21 +17,34 @@
               minlength="5"
               formControlName="descricao"
               (paste)="aoColarNaDescricao($event, itemIndex)"
-              (keydown)="pesquisarItens($event)">
+              (keyup)="searchItens($event.target.value, itemIndex)">
             </textarea>
 
-            <div *ngFor="let item of itensEncontrado">
-              <p>
-                {{item?.descricao}}
-              </p>
+            <div *ngIf="(itensEncontrado$[itemIndex] | async)?.length > 0   " class="UUbT9">
+              <div class="aajZCb" >
+                <ul class="erkvQe">
+                  <li *ngFor="let item of itensEncontrado$[itemIndex] | async; let i = index" [ngClass]="clazz[i]" class="sbct"
+                    (mouseover)="clazz[i]='sbct sbh1'"
+                    (mouseout)="clazz[i]='sbct'"
+                    (click)="atribuirItemPesquisa(item, itemIndex)">
+                    <div class="sbtc">
+                      <div class="sbl1"> 
+                        <span>
+                          {{item?.descricao}}
+                        </span>
+                      </div>
+                    </div>                      
+                  </li>
+                </ul>
+              </div>
             </div>
 
-            <div *ngIf="itensEncontrado?.length < 1">
+            <!--<div *ngIf="itensEncontrado?.length < 1">
                 <hr>
                 <p>
                   Nenhum item encontrado.
                 </p>
-            </div>
+            </div>-->
 
             <!-- <app-message [control]="formulario.get('itens').at(itemIndex).get('descricao')" error="obrigatoriedade"
               text="Informe a descrição"></app-message> -->
@@ -62,6 +75,5 @@
         <a routerLink="/itens">Voltar para a pesquisa</a>
       </div>
     </div>
-
   </form>
 </div>
