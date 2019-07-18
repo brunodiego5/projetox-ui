@@ -17,7 +17,7 @@ export class ItensPesquisaComponent implements OnInit {
   totalRegistros = 0;
   filtro = new ItemFiltro();
   itens = [];
-  @ViewChild('tabela') grid;
+  @ViewChild('tabela', {static: false}) grid;
 
   constructor(
     private itemService: ItemService,

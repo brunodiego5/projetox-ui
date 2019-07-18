@@ -18,7 +18,7 @@ export class EditaisPesquisaComponent implements OnInit {
   totalRegistros = 0;
   filtro = new EditalFiltro();
   editais = [];
-  @ViewChild('tabela') grid;
+  @ViewChild('tabela', {static: false}) grid;
 
   constructor(
     private editalService: EditalService,
