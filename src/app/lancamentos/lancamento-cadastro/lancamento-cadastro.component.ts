@@ -190,12 +190,12 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   carregarCategorias() {
-    return this.categoriaService.listarTodas()
+    /*return this.categoriaService.listarTodas()
       .then(categorias => {
         this.categorias = categorias
           .map(c => ({ label: c.nome, value: c.codigo }));
       })
-      .catch(erro => this.errorHandler.handle(erro));
+      .catch(erro => this.errorHandler.handle(erro));*/
   }
 
   carregarPessoas() {

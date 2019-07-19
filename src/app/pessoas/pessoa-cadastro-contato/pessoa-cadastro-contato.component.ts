@@ -32,7 +32,8 @@ export class PessoaCadastroContatoComponent implements OnInit {
     this.contatoIndex = index;
   }
 
-  confirmarContato(frm: FormControl) {
+  //confirmarContato(frm: FormControl) {
+    confirmarContato(frm) {  
     this.contatos[this.contatoIndex] = this.clonarContato(this.contato);
 
     this.exbindoFormularioContato = false;

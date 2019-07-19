@@ -20,7 +20,7 @@ export class ItensCadastroComponent implements OnInit {
 
   formulario: FormGroup;
   ids: number[] = [];
-  public clazz: number[] = [];
+  public clazz: String[] = [];
 
   public itemEncontrado$:  Observable<Item[]>;
   public itensEncontrado$:  Observable<Item[]>[] = [];

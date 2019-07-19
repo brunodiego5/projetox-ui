@@ -23,7 +23,9 @@
             <div *ngIf="(itensEncontrado$[itemIndex] | async)?.length > 0   " class="UUbT9">
               <div class="aajZCb" >
                 <ul class="erkvQe">
-                  <li *ngFor="let item of itensEncontrado$[itemIndex] | async; let i = index" [ngClass]="clazz[i]" class="sbct"
+                  <div *ngFor='let item of itensEncontrado$[itemIndex] | async; let i = index'>
+
+                  <li  [ngClass]="clazz[i]" class="sbct"
                     (mouseover)="clazz[i]='sbct sbh1'"
                     (mouseout)="clazz[i]='sbct'"
                     (click)="atribuirItemPesquisa(item, itemIndex)">
@@ -35,6 +37,9 @@
                       </div>
                     </div>                      
                   </li>
+
+                  </div>
+
                 </ul>
               </div>
             </div>

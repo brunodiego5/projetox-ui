@@ -20,6 +20,7 @@ const routes: Routes = [
   /*
   loadChildren: './admin/admin.module#AdminModule'
   loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
 */
 
   { path: '', redirectTo: 'editais', pathMatch: 'full' },

@@ -19,6 +19,7 @@ export class LancamentosPesquisaComponent implements OnInit {
   filtro = new LancamentoFiltro();
   lancamentos = [];
   @ViewChild('tabela', {static: false}) grid;
+  temPermissaoRemoverLancamento:any;
 
   constructor(
     private lancamentoService: LancamentoService,
@@ -27,7 +28,9 @@ export class LancamentosPesquisaComponent implements OnInit {
     private messageService: MessageService,
     private confirmation: ConfirmationService,
     private title: Title
-  ) { }
+  ) { 
+    this.temPermissaoRemoverLancamento = auth.temPermissao('ROLE_REMOVER_LANCAMENTO');
+  }
 
   ngOnInit() {
     this.title.setTitle('Pesquisa de lançamentos');

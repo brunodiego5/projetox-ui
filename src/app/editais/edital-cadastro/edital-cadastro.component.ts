@@ -140,7 +140,8 @@ export class EditalCadastroComponent implements OnInit {
       erro => this.errorHandler.handle(erro));
   }
 
-  salvar(form: FormControl) {
+  // salvar(form: FormControl) {
+    salvar(form) {  
     if (this.editando) {
       this.atualizarEdital(form);
     } else {
@@ -176,7 +177,8 @@ export class EditalCadastroComponent implements OnInit {
       erro => this.errorHandler.handle(erro));
   }
 
-  novo(form: FormControl) {
+  //novo(form: FormControl) {
+  novo(form) {
     form.reset();
 
     setTimeout(function() {
