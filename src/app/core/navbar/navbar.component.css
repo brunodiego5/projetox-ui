@@ -13,7 +13,7 @@
     bottom: 0;
     /*right: 0;*/
     left: 0;
-    width: 210px;
+    width: 225px;
     margin: 0;
     padding: 0;
     z-index: 9998;
@@ -21,6 +21,21 @@
     background-color: #3a3633;
 
     list-style: none;
+    padding-left:0;    
+  }
+
+  .navbar-submenu {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 210px;
+    margin: 0;
+    padding: 15;
+    z-index: 9998;
+    background-color: #3a3633;
+    list-style: none;
+    right: 0;    
+    padding-left:0;
   }
 
   .navbar-usuario {
@@ -33,19 +48,51 @@
     color: #fff;
   }
 
-  .navbar-menuitem {
+  .navbar-titulomenu {
     padding: 15px;
+    text-decoration: none;
+    background-color: #3a3633;
   }
 
-  .navbar-menuitem a {
+  .navbar-titulomenu a {
     color: #c0bbb7;
     text-decoration: none;
   }
 
+  .navbar-titulosubmenu {
+    /*padding: 15px;    */
+    text-decoration: none;
+    background: white;
+  }
+
+  .navbar-titulosubmenu a {
+    color: black;
+    text-decoration: none;
+  }
+
+  .navbar-menuitem {
+    padding: 15px;
+    text-decoration: none;
+    background: #fff;
+  }
+
+  .navbar-menuitem a {
+    color: grey;
+    text-decoration: none;
+  }
+
   .navbar-menuitem a:hover {
-    color: #fff;
+    color: black;
   }
 
   .navbar-menuitem.ativo {
-    background-color: #494541;
+    background-color: darkgray;
+  }
+
+  .navbar-menuitem.ativo a{
+    color: black;
+  }
+
+  .div-submenu {
+    background: white;
   }

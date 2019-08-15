@@ -24,6 +24,11 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
 import { EditalSnifferHttp } from '../seguranca/editalsniffer-http';
 import { EditalService } from '../editais/edital.service';
 import { ItemService } from './../itens/item.service';
+import { HeaderComponent } from './header/header.component';
+import { MenuComponent } from './menu/menu.component';
+import { ContentComponent } from './content/content.component';
+import { FooterComponent } from './footer/footer.component';
+import { SettingComponent } from './setting/setting.component';
 
 registerLocaleData(localePt);
 
@@ -39,12 +44,23 @@ registerLocaleData(localePt);
   declarations: [
     NavbarComponent,
     PaginaNaoEncontradaComponent,
-    NaoAutorizadoComponent
+    NaoAutorizadoComponent,
+    HeaderComponent,
+    MenuComponent,
+    ContentComponent,
+    FooterComponent,
+    SettingComponent
   ],
   exports: [
     NavbarComponent,
     GrowlModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    HeaderComponent,
+    MenuComponent,
+    ContentComponent,
+    FooterComponent,
+    SettingComponent
+
   ],
   providers: [
     EditalService,

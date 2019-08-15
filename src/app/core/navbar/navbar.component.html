@@ -11,25 +11,51 @@
     <ul class="navbar-menu" [hidden]="!exibindoMenu">
       <li class="navbar-usuario">{{ auth.jwtPayload?.nome }}</li>
 
-      <!--<li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"><a routerLink="/dashboard" (click)="exibindoMenu = !exibindoMenu">Dashboard</a></li>
-      <li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"><a routerLink="/lancamentos" (click)="exibindoMenu = !exibindoMenu">Lançamentos</a></li>
-      <li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="auth.temPermissao('ROLE_PESQUISAR_PESSOA')"><a routerLink="/pessoas" (click)="exibindoMenu = !exibindoMenu">Pessoas</a></li>
-      <li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"><a routerLink="/relatorios/lancamentos" (click)="exibindoMenu = !exibindoMenu">Relatório</a></li> -->
+      <li class="navbar-titulomenu">
+        <a class="navbar-submenu" href="javascript:;" (click)="exibindoBaseDados = !exibindoBaseDados">Base de Dados<i class="fa fa-angle-down pull-right"></i></a><br>       
+        
+        <div class="div-submenu" [hidden]="!exibindoBaseDados">
+        
+          <a class="navbar-titulosubmenu" href="javascript:;" >CADASTRAR</a>
+        
+          <ul class="navbar-submenu" >
+            <li class="navbar-menuitem" routerLinkActive="ativo"
+              *ngIf="auth.temPermissao('ROLE_CADASTRAR_EDITAL')"><a routerLink="/editais/novo" (click)="exibindoMenu = !exibindoMenu"><i class="fa fa-arrow-right pull-left"></i>Cadastrar Editais</a></li>
 
-      <li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="auth.temPermissao('ROLE_PESQUISAR_EDITAL')"><a routerLink="/editais" (click)="exibindoMenu = !exibindoMenu">Pesquisar Editais</a></li>
-      <li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="auth.temPermissao('ROLE_CADASTRAR_EDITAL')"><a routerLink="/editais/novo" (click)="exibindoMenu = !exibindoMenu">Cadastrar Editais</a></li>
+            <li class="navbar-menuitem" routerLinkActive="ativo"
+              *ngIf="auth.temPermissao('ROLE_CADASTRAR_ITEM')"><a routerLink="/itens/novo" (click)="exibindoMenu = !exibindoMenu"><i class="fa fa-arrow-right pull-left"></i>Cadastrar Itens</a></li>
+          </ul>
 
-      <li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="auth.temPermissao('ROLE_PESQUISAR_ITEM')"><a routerLink="/itens" (click)="exibindoMenu = !exibindoMenu">Pesquisar Itens</a></li>
-      <li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="auth.temPermissao('ROLE_CADASTRAR_ITEM')"><a routerLink="/itens/novo" (click)="exibindoMenu = !exibindoMenu">Cadastrar Itens</a></li>
-      <li class="navbar-menuitem"><a href="javascript:;" (click)="logout()">Logout</a></li>
+          <a class="navbar-titulosubmenu" ref="javascript:;" >CONSULTAR</a>
+          <ul class="navbar-submenu" >
+            <li class="navbar-menuitem" routerLinkActive="ativo"
+              *ngIf="auth.temPermissao('ROLE_PESQUISAR_EDITAL')"><a routerLink="/editais" (click)="exibindoMenu = !exibindoMenu"><i class="fa fa-arrow-right pull-left"></i>Pesquisar Editais</a></li>
+
+            <li class="navbar-menuitem" routerLinkActive="ativo"
+              *ngIf="auth.temPermissao('ROLE_PESQUISAR_ITEM')"><a routerLink="/itens" (click)="exibindoMenu = !exibindoMenu"><i class="fa fa-arrow-right pull-left"></i>Pesquisar Itens</a></li>
+          </ul>            
+        </div>  
+      </li>
+      
+      <li class="navbar-titulomenu">
+        <a class="navbar-submenu" href="javascript:;">Ticar Automático<i class="fa fa-angle-down pull-right"></i></a>
+      </li> 
+
+      <li class="navbar-titulomenu">
+        <a class="navbar-submenu" href="javascript:;">Análise Preditiva<i class="fa fa-angle-down pull-right"></i></a>
+      </li>  
+
+      <li class="navbar-titulomenu">
+        <a class="navbar-submenu" href="javascript:;">Relatórios<i class="fa fa-angle-down pull-right"></i></a>
+      </li>  
+
+      <li class="navbar-titulomenu">
+        <a class="navbar-submenu" href="javascript:;">Comunicados<i class="fa fa-angle-down pull-right"></i></a>
+      </li>
+
+      <li class="navbar-titulomenu">
+        <a class="navbar-submenu" href="javascript:;" (click)="logout()">Logout</a>
+      </li>  
     </ul>
 
   </nav>
