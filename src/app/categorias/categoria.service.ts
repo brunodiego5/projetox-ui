@@ -5,7 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { EditalSnifferHttp } from '../seguranca/editalsniffer-http';
 
-import { Categoria } from './../core/model';
+import { Categoria } from './../core/model/Categoria';
 
 export class CategoriaFiltro {
   nome: string;
@@ -31,7 +31,7 @@ export class CategoriaService {
     });
 
     if (filtro.nome) {
-      params = params.append('ano', filtro.nome);
+      params = params.append('nome', filtro.nome);
     }
 
     return this.http.get<any>(`${this.categoriasUrl}`, { params });
@@ -53,8 +53,8 @@ export class CategoriaService {
     return this.http.put<Categoria>(`${this.categoriasUrl}/${categoria.codigo}`, categoria);
   }
 
-  buscarPorId(id: number): Observable<Categoria> {
-    return this.http.get<Categoria>(`${this.categoriasUrl}/${id}`);
+  buscarPorId(codigo: number): Observable<Categoria> {
+    return this.http.get<Categoria>(`${this.categoriasUrl}/${codigo}`);
   }
 
 }

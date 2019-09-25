@@ -69,7 +69,8 @@
         <p-calendar name="abertura" dateFormat="dd/mm/yy"
         [inline]="false" [readonlyInput]="false" [showIcon]="false"
         [(ngModel)]="edital.dataAbertura"
-        #abertura="ngModel"></p-calendar>
+        #abertura="ngModel"
+        [locale]="pt"></p-calendar>
       </div>
       <!--[inline]="false" [readonlyInput]="false" [showIcon]="false">-->
 
@@ -107,11 +108,11 @@
         </div>
 
       <div class="ui-g-12">
-        <button pButton type="submit" label="Salvar" [disabled]="f.invalid || uploadEmAndamento"></button>
-        <button pButton type="button" label="Novo" class="ui-button-info"
+        <button pButton type="submit" label="Salvar" [disabled]="f.invalid || uploadEmAndamento" class="mx-5"></button>
+        <button pButton type="button" label="Novo" class="ui-button-info" class="mx-5"
           (click)="novo(f)"></button>
 
-        <a routerLink="/editais">Voltar para a pesquisa</a>
+        <a class="mx-5" routerLink="/editais">Voltar para a pesquisa</a>
       </div>
     </div>
 

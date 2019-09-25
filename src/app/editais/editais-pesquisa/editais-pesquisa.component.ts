@@ -33,20 +33,24 @@ export class EditaisPesquisaComponent implements OnInit {
     this.title.setTitle('Pesquisa de editais');
   }
 
-  pesquisar(pagina = 0) {
+  pesquisar(pagina = 0, setarPrimeiraPagna: boolean = true) {
     this.filtro.pagina = pagina;
 
     this.editalService.pesquisar(this.filtro)
       .subscribe(dados => {
         this.totalRegistros = dados.totalElements;
         this.editais = dados.content;
+        if (setarPrimeiraPagna) {
+          this.grid.first = 0;
+        }
+
       },
       erro => this.errorHandler.handle(erro));
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
     const pagina = event.first / event.rows;
-    this.pesquisar(pagina);
+    this.pesquisar(pagina, false);
   }
 
   confirmarExclusao(edital: any) {

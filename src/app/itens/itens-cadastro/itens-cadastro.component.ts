@@ -170,7 +170,8 @@ export class ItensCadastroComponent implements OnInit {
 
     event.clipboardData
       .getData('Text')
-      .split(/\n/)
+      .replace(/\r\n/g, ';')
+      .split(';')
       .forEach(value => {
         excluirControl = true;
         if (value.trim()) {

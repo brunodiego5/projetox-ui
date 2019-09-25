@@ -15,7 +15,6 @@ import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  declarations: [CategoriaCadastroComponent, CategoriasPesquisaComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +27,7 @@ import { SharedModule } from '../shared/shared.module';
 
     SharedModule,
     CategoriasRoutingModule
-  ]
+  ],
+  declarations: [CategoriaCadastroComponent, CategoriasPesquisaComponent]
 })
 export class CategoriasModule { }

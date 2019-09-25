@@ -9,11 +9,13 @@
       <div class="ui-g-12 ui-md-12" formArrayName="itens">
         <div class="ui-g" *ngFor= "let item of formulario.get('itens')['controls']; let itemIndex = index " [formGroupName]="itemIndex">
 
-          <div class="ui-g-12 ui-md-10 ui-fluid">
+          
+          <div class="ui-g-12 ui-md-10 ui-fluid" > <!--class="ui-g-12 ui-md-10 ui-fluid"-->
             <label>Descrição</label>
             <textarea pInputTextarea
               name="descricao"
               autoResize="autoResize"
+              [cols]="100"
               minlength="5"
               formControlName="descricao"
               (paste)="aoColarNaDescricao($event, itemIndex)"
@@ -58,10 +60,11 @@
           </div>
 
           <div class="ui-g-1 ui-md-1 ui-fluid conteudoNoCentroVerticalmente">
-            <label>Atende  </label>
+            <label class="mx-5">Atende</label>
             <p-checkbox binary="true"
               name="atende"
-              formControlName="atende"></p-checkbox>
+              formControlName="atende"
+              class="mx-5"></p-checkbox>
           </div>
 
           <div class="ui-g-1 ui-md-1 ui-fluid conteudoNoCentroVerticalmente">
@@ -74,10 +77,10 @@
       </div>
 
       <div class="ui-g-12">
-        <button pButton type="submit" label="Salvar" [disabled]="formulario.invalid"></button>
-        <button pButton type="button" label="Novo" class="ui-button-info" (click)="novo()"></button>
+        <button pButton type="submit" label="Salvar" [disabled]="formulario.invalid"  class="mx-5"></button>
+        <button pButton type="button" label="Novo" class="ui-button-info" (click)="novo()"  class="mx-5"></button>
 
-        <a routerLink="/itens">Voltar para a pesquisa</a>
+        <a  class="mx-5" routerLink="/itens">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>

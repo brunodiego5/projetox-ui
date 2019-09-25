@@ -48,7 +48,7 @@ export class EditalService {
     }
 
     if (filtro.processo) {
-      params = params.append('ano', filtro.processo);
+      params = params.append('processo', filtro.processo);
     }
 
     return this.http.get<any>(`${this.editaisUrl}`, { params });

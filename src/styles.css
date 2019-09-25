@@ -52,12 +52,12 @@ body {
   }
   
   .col-acoes {
-    width: 100px;
+    width: 120px;
     text-align: center;
   }
   
   .col-acoes-header {
-    width: 100px;
+    width: 120px;
   }
 
   .col-acoes-button {
@@ -72,6 +72,11 @@ body {
   
   .col-status-header {
     width: 90px;
+  }
+
+  .mx-5{
+    margin-left: 5px !important;
+    margin-right: 5px !important;
   }
   
   

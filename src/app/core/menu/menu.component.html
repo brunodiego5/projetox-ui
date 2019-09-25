@@ -17,7 +17,7 @@
         </div>
 
         <!-- search form (Optional) -->
-        <form action="#" method="get" class="sidebar-form">
+        <form action="javascript:;" method="get" class="sidebar-form">
         <div class="input-group">
             <input type="text" name="q" class="form-control" placeholder="Pesquisar...">
             <span class="input-group-btn">
@@ -35,26 +35,30 @@
         <!--<li class="active"><a href="javascript:;"><i class="fa fa-link"></i> <span>Link</span></a></li>
         <li><a href="javascript:;"><i class="fa fa-link"></i> <span>Another Link</span></a></li>-->
         <li class="treeview">
-            <a href="#"><i class="fa fa-save"></i> <span>Cadastrar</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
+            <a href="javascript:;"><i class="fa fa-save"></i> <span>Cadastrar</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
-            <li *ngIf="auth.temPermissao('ROLE_CADASTRAR_EDITAL')"><a routerLink="/editais/novo" href="javascript:;">Edital</a></li>
-            <li *ngIf="auth.temPermissao('ROLE_CADASTRAR_ITEM')"><a routerLink="/itens/novo" href="javascript:;">Item</a></li>
+                <li *ngIf="auth.temPermissao('ROLE_CADASTRAR_CATEGORIA')"><a routerLink="/categorias/nova" href="javascript:;">Categoria</a></li>
+                <li *ngIf="auth.temPermissao('ROLE_CADASTRAR_CONCORRENTE')"><a routerLink="/concorrentes/novo" href="javascript:;">Concorrente</a></li>
+                <li *ngIf="auth.temPermissao('ROLE_CADASTRAR_EDITAL')"><a routerLink="/editais/novo" href="javascript:;">Edital</a></li>
+                <li *ngIf="auth.temPermissao('ROLE_CADASTRAR_ITEM')"><a routerLink="/itens/novo" href="javascript:;">Item</a></li>
             </ul>
         </li>
 
         <li class="treeview">
-            <a href="#"><i class="fa fa-list"></i> <span>Consultar</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
+            <a href="javascript:;"><i class="fa fa-list"></i> <span>Consultar</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
-            <li *ngIf="auth.temPermissao('ROLE_PESQUISAR_EDITAL')"><a routerLink="/editais" href="javascript:;">Edital</a></li>
-            <li *ngIf="auth.temPermissao('ROLE_PESQUISAR_ITEM')"><a routerLink="/itens" href="javascript:;">Item</a></li>
+                <li *ngIf="auth.temPermissao('ROLE_PESQUISAR_CATEGORIA')"><a routerLink="/categorias" href="javascript:;">Categoria</a></li>
+                <li *ngIf="auth.temPermissao('ROLE_PESQUISAR_CONCORRENTE')"><a routerLink="/concorrentes" href="javascript:;">Concorrente</a></li>
+                <li *ngIf="auth.temPermissao('ROLE_PESQUISAR_EDITAL')"><a routerLink="/editais" href="javascript:;">Edital</a></li>
+                <li *ngIf="auth.temPermissao('ROLE_PESQUISAR_ITEM')"><a routerLink="/itens" href="javascript:;">Item</a></li>
             </ul>
         </li>
         <li class="header">TICAR AUTOMÁTICO</li>

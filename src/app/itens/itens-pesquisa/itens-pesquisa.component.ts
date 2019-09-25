@@ -31,20 +31,23 @@ export class ItensPesquisaComponent implements OnInit {
     this.title.setTitle('Pesquisa de itens');
   }
 
-  pesquisar(pagina = 0) {
+  pesquisar(pagina = 0, setarPrimeiraPagna: Boolean = true) {
     this.filtro.pagina = pagina;
 
     this.itemService.pesquisar(this.filtro)
       .subscribe(dados => {
         this.totalRegistros = dados.totalElements;
         this.itens = dados.content;
+        if (setarPrimeiraPagna) {
+          this.grid.first = 0;
+        }
       },
       erro => this.errorHandler.handle(erro));
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
     const pagina = event.first / event.rows;
-    this.pesquisar(pagina);
+    this.pesquisar(pagina, false);
   }
 
   confirmarExclusao(item: any) {

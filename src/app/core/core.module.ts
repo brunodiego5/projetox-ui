@@ -29,6 +29,7 @@ import { MenuComponent } from './menu/menu.component';
 import { ContentComponent } from './content/content.component';
 import { FooterComponent } from './footer/footer.component';
 import { SettingComponent } from './setting/setting.component';
+import { ConcorrenteService } from '../concorrentes/concorrente.service';
 
 registerLocaleData(localePt);
 
@@ -73,6 +74,7 @@ registerLocaleData(localePt);
     ErrorHandlerService,
     AuthService,
     EditalSnifferHttp,
+    ConcorrenteService,
 
     ConfirmationService,
     MessageService,

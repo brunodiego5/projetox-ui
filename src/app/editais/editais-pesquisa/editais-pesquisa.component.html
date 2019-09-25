@@ -55,11 +55,11 @@
             <td class="col-data">{{ edital.dataAbertura | date:'dd/MM/yyyy' }}</td>
             <td>{{ edital.concorrente?.nome }}</td>
             <td class="col-acoes">
-              <a pButton icon="fa fa-pencil" class="col-acoes-button"
+              <a pButton icon="fa fa-pencil" class="col-acoes-button mx-5"
                 pTooltip="Editar" tooltipPosition="top"
                 [routerLink]="['/editais', edital.id]"></a>
 
-              <button pButton icon="fa fa-trash" class="col-acoes-button"
+              <button pButton icon="fa fa-trash" class="col-acoes-button mx-5"
                 pTooltip="Excluir" tooltipPosition="top"
                 (click)="confirmarExclusao(edital)"></button>
             </td>
